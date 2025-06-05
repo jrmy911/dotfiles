@@ -16,6 +16,7 @@ return {
           "tflint",
           "dockerls",
           "docker_compose_language_service",
+          "bicep"
         }
       })
     end
@@ -29,9 +30,11 @@ return {
       lspconfig.terraformls.setup({})
       lspconfig.dockerls.setup({})
       lspconfig.docker_compose_language_service.setup({})
+      lspconfig.bicep.setup({})
 
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
       vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
+      vim.keymap.set('n', 'gr', vim.lsp.buf.references, {})
       vim.keymap.set({ 'n', 'v'}, '<leader>ca', vim.lsp.buf.code_action, {})
     end
   }
