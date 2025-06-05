@@ -24,13 +24,26 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
 			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({})
-			lspconfig.ansiblels.setup({})
-			lspconfig.terraformls.setup({})
-			lspconfig.dockerls.setup({})
-			lspconfig.docker_compose_language_service.setup({})
-			lspconfig.bicep.setup({})
+			lspconfig.lua_ls.setup({
+        capabilities = capabilities
+      })
+			lspconfig.ansiblels.setup({
+        capabilities = capabilities
+      })
+			lspconfig.terraformls.setup({
+        capabilities = capabilities
+      })
+			lspconfig.dockerls.setup({
+        capabilities = capabilities
+      })
+			lspconfig.docker_compose_language_service.setup({
+        capabilities = capabilities
+      })
+			lspconfig.bicep.setup({
+        capabilities = capabilities
+      })
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
