@@ -1,3 +1,5 @@
+eval "$(keychain --eval --agents ssh id_ecdsa)"
+export PATH="$PATH:/home/fedora/.local/bin"
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -39,6 +41,7 @@ zinit snippet OMZP::azure
 zinit snippet OMZP::kubectl
 zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
+zinit snippet OMZP::keychain
 
 # Load completions
 autoload -Uz compinit && compinit
@@ -75,9 +78,14 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
-alias ls='ls --color'
+alias ls='eza -lh --group-directories-first --icons=auto'
+alias lt='eza --tree --level=2 --long --icons --git'
 alias vim='nvim'
+alias cat='bat'
 alias c='clear'
+alias tf='terraform'
+alias azrg='az group list --output table'
+alias azdg='az deployment group list --output table'
 
 # Shell integrations
 eval "$(fzf --zsh)"
