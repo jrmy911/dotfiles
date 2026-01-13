@@ -1,31 +1,84 @@
 return {
   {
-    "gthelding/monokai-pro.nvim",
-    config = function()
-      require("monokai-pro").setup({
-        filter = "ristretto",
-        override = function()
-          return {
-            NonText = { fg = "#948a8b" },
-            MiniIconsGrey = { fg = "#948a8b" },
-            MiniIconsRed = { fg = "#fd6883" },
-            MiniIconsBlue = { fg = "#85dacc" },
-            MiniIconsGreen = { fg = "#adda78" },
-            MiniIconsYellow = { fg = "#f9cc6c" },
-            MiniIconsOrange = { fg = "#f38d70" },
-            MiniIconsPurple = { fg = "#a8a9eb" },
-            MiniIconsAzure = { fg = "#a8a9eb" },
-            MiniIconsCyan = { fg = "#85dacc" }, -- same value as MiniIconsBlue for consistency
-          }
-        end,
-      })
-      vim.cmd([[colorscheme monokai-pro]])
-    end,
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000, -- Ensure it loads before other plugins
+    opts = {
+      flavour = "macchiato", -- latte, frappe, macchiato, mocha
+      background = { -- :h background
+        light = "latte",
+        dark = "mocha",
+      },
+      transparent_background = false,
+      float = {
+        transparent = false,
+        solid = false,
+      },
+      show_end_of_buffer = false,
+      term_colors = false,
+      dim_inactive = {
+        enabled = false,
+        shade = "dark",
+        percentage = 0.15,
+      },
+      no_italic = false,
+      no_bold = false,
+      no_underline = false,
+      styles = {
+        comments = { "italic" },
+        conditionals = { "italic" },
+        loops = { "italic" },
+        functions = { "italic" },
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+      },
+      lsp_styles = {
+        virtual_text = {
+          errors = { "italic" },
+          hints = { "italic" },
+          warnings = { "italic" },
+          information = { "italic" },
+          ok = { "italic" },
+        },
+        underlines = {
+          errors = { "underline" },
+          hints = { "underline" },
+          warnings = { "underline" },
+          information = { "underline" },
+          ok = { "underline" },
+        },
+        inlay_hints = {
+          background = true,
+        },
+      },
+      color_overrides = {},
+      custom_highlights = {},
+      default_integrations = true,
+      auto_integrations = false,
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        notify = false,
+        mini = {
+          enabled = true,
+          indentscope_color = "",
+        },
+      },
+    },
   },
+  
+  -- Configure LazyVim to use this colorscheme
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "monokai-pro",
+      colorscheme = "catppuccin",
     },
   },
 }

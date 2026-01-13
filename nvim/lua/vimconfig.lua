@@ -6,6 +6,17 @@ vim.opt.relativenumber = true
 vim.opt.scrolloff = 8
 vim.g.mapleader = " "
 
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldcolumn = "0"
+vim.opt.foldtext = ""
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 1
+vim.opt.foldnestmax = 4
+
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
 vim.opt.nu = true
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
