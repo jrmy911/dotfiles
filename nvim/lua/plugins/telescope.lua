@@ -9,6 +9,7 @@ return {
 			vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 			vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, {})
 			vim.keymap.set("n", "<leader>d", builtin.diagnostics, {})
+			vim.keymap.set("n", "<leader>cm", builtin.commands, {})
 		end,
 	},
 	{

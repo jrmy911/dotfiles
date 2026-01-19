@@ -3,7 +3,15 @@ return {
   config = function()
     require('lualine').setup({
       options = {
-        theme ='monokai-pro'
+        theme ='catppuccin-mocha',
+      },
+      sections = {
+        lualine_a = {
+          {
+            'buffers',
+            show_modified_status = true
+          }
+      }
       }
     })
   end

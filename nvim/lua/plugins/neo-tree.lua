@@ -11,11 +11,10 @@ return {
     vim.keymap.set("n", "<C-l>", ":Neotree toggle left<CR>")
     vim.keymap.set("n", "<C-o>", ":Neotree focus<CR>")
     vim.keymap.set("n", "<leader>q", ":Neotree action=close<CR>")
-    vim.keymap.set("n", "<leader>g", ":Neotree source=git_status<CR>")
 
     require("neo-tree").setup({
       close_if_last_window = true,
-      enable_git_status = true,
+      enable_git_status = false,
       enable_diagnostics = true,
       default_component_configs = {
         git_status = {

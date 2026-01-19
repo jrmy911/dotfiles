@@ -4,7 +4,7 @@ return {
     name = "catppuccin",
     priority = 1000, -- Ensure it loads before other plugins
     opts = {
-      flavour = "macchiato", -- latte, frappe, macchiato, mocha
+      flavour = "mocha", -- latte, frappe, macchiato, mocha
       background = { -- :h background
         light = "latte",
         dark = "mocha",
@@ -73,8 +73,6 @@ return {
       },
     },
   },
-  
-  -- Configure LazyVim to use this colorscheme
   {
     "LazyVim/LazyVim",
     opts = {
