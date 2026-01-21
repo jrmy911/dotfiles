@@ -225,7 +225,7 @@ packages = []
 
 [[profiles]]
 name = "lazygit"
-synced_files = []
+synced_files = [".config/lazygit"]
 packages = []
 
 [[profiles]]
