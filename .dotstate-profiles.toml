@@ -215,7 +215,7 @@ packages = []
 
 [[profiles]]
 name = "bat"
-synced_files = []
+synced_files = [".config/bat"]
 packages = []
 
 [[profiles]]
