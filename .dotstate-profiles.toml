@@ -210,7 +210,7 @@ packages = []
 
 [[profiles]]
 name = "zsh"
-synced_files = []
+synced_files = [".zshrc"]
 packages = []
 
 [[profiles]]
