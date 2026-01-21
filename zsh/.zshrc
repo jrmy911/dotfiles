@@ -67,6 +67,7 @@ alias tf='terraform'
 alias azrg='az group list --output table'
 alias azdg='az deployment group list --output table'
 alias ds='ddgr -j'
+alias d='ddgr'
 
 # Shell integrations
 eval "$(fzf --zsh)"
