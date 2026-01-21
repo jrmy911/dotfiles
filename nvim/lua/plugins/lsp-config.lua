@@ -1,12 +1,12 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     config = function()
       require("mason").setup()
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {
@@ -30,6 +30,11 @@ return {
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require("lspconfig")
       local bicep_lsp_bin = "/usr/local/bin/bicep-langserver/Bicep.Langserver.dll"
+      local sk = LazyVim.opts("sidekick.nvim") ---@type sidekick.Config|{}
+      if vim.tbl_get(sk, "nes", "enabled") ~= false then
+        opts.servers = opts.servers or {}
+        opts.servers.copilot = opts.servers.copilot or {}
+      end
       lspconfig.lua_ls.setup({
         capabilities = capabilities
       })
