@@ -205,7 +205,7 @@ binary_name = "git"
 
 [[profiles]]
 name = "tmux"
-synced_files = []
+synced_files = [".tmux.conf"]
 packages = []
 
 [[profiles]]
