@@ -66,6 +66,8 @@ alias c='clear'
 alias tf='terraform'
 alias azrg='az group list --output table'
 alias azdg='az deployment group list --output table'
+alias ds='ddgr -j'
+alias d='ddgr'
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -76,4 +78,3 @@ eval "$(starship init zsh)"
 ## Completion scripts setup. Remove the following line to uninstall
 [[ -f /home/jrmy/.dart-cli-completion/zsh-config.zsh ]] && . /home/jrmy/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
-
