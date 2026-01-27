@@ -1,0 +1,14 @@
+background = 121212
+foreground = e0e0e0
+cursor-color = ffffff
+selection-background = 333333
+selection-foreground = ffffff
+
+# Palette (Monochrome)
+palette = 0=#121212
+palette = 8=#444444
+palette = 7=#b0b0b0
+palette = 15=#ffffff
+# Hint of frosty blue for links
+palette = 4=#5e6a70
+palette = 12=#8ea0a8

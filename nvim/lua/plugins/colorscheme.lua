@@ -2,10 +2,10 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    priority = 1000, -- Ensure it loads before other plugins
+    priority = 1000,     -- Ensure it loads before other plugins
     opts = {
       flavour = "mocha", -- latte, frappe, macchiato, mocha
-      background = { -- :h background
+      background = {     -- :h background
         light = "latte",
         dark = "mocha",
       },
@@ -74,9 +74,22 @@ return {
     },
   },
   {
+    'f4z3r/gruvbox-material.nvim',
+    name = 'gruvbox-material',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      italics = true,
+      contrast = medium,
+      comments = {
+        italics = true,
+      }
+    },
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "gruvbox-material",
     },
   },
 }

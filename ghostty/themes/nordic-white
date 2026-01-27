@@ -1,0 +1,10 @@
+background = f2f2f2
+foreground = 1a1a1a
+cursor-color = 1a1a1a
+selection-background = d1d1d1
+selection-foreground = 1a1a1a
+
+palette = 0=#1a1a1a
+palette = 8=#545454
+palette = 4=#4a5a6a
+palette = 12=#7a8a9a
