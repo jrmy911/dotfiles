@@ -1,72 +1,67 @@
 return {
   {
-    "mason-org/mason.nvim",
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp", -- Required for capabilities
+    },
     config = function()
+      -- 1. Setup Mason
       require("mason").setup()
-    end,
-  },
-  {
-    "mason-org/mason-lspconfig.nvim",
-    config = function()
+
+      -- 2. Validate Capabilities (Auto-completion support)
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+      -- 3. Setup Mason-LSPConfig
       require("mason-lspconfig").setup({
+        -- specific lsp servers (tflint removed as it is not an LSP)
         ensure_installed = {
           "lua_ls",
           "bashls",
           "ansiblels",
           "terraformls",
-          "tflint",
           "dockerls",
           "docker_compose_language_service",
           "bicep",
           "helm_ls",
           "pylsp",
         },
-      })
-    end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      local lspconfig = require("lspconfig")
-      local bicep_lsp_bin = "/usr/local/bin/bicep-langserver/Bicep.Langserver.dll"
-      local sk = LazyVim.opts("sidekick.nvim") ---@type sidekick.Config|{}
-      if vim.tbl_get(sk, "nes", "enabled") ~= false then
-        opts.servers = opts.servers or {}
-        opts.servers.copilot = opts.servers.copilot or {}
-      end
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.bashls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.ansiblels.setup({
-        capabilities = capabilities
-      })
-      lspconfig.terraformls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.dockerls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.docker_compose_language_service.setup({
-        capabilities = capabilities
-      })
-      lspconfig.bicep.setup({
-        capabilities = capabilities
-      })
-      lspconfig.helm_ls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.pylsp.setup({
-        capabilities = capabilities
+        -- AUTOMATIC SETUP (The Fix)
+        handlers = {
+          -- The Default Handler:
+          -- Applies to every server in 'ensure_installed' unless overridden below
+          function(server_name)
+            require("lspconfig")[server_name].setup({
+              capabilities = capabilities,
+            })
+          end,
+
+          -- Example: Overriding specific settings for Lua (optional)
+          ["lua_ls"] = function()
+            require("lspconfig").lua_ls.setup({
+              capabilities = capabilities,
+              settings = {
+                Lua = {
+                  diagnostics = { globals = { "vim" } },
+                },
+              },
+            })
+          end,
+        },
       })
 
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-      vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
-      vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+      -- 4. Keymaps (Best Practice: Only set when LSP attaches)
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+        callback = function(ev)
+          local opts = { buffer = ev.buf }
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+          vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+        end,
+      })
     end,
   },
 }

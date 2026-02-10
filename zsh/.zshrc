@@ -15,8 +15,18 @@ source "${ZINIT_HOME}/zinit.zsh"
 
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
 zinit light Aloxaf/fzf-tab
 zinit ice depth=1
+
+autoload -Uz compinit && compinit
+
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::kubectl
+zinit snippet OMZP::kubectx
+zinit snippet OMZP::command-not-found
 
 zinit cdreplay -q
 
