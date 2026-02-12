@@ -3,7 +3,7 @@ return {
   config = function()
     require('lualine').setup({
       options = {
-        theme ='gruvbox-material',
+        theme = 'rose-pine',
       },
       sections = {
         lualine_a = {
@@ -11,7 +11,7 @@ return {
             'buffers',
             show_modified_status = true
           }
-      }
+        }
       }
     })
   end

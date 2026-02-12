@@ -1,0 +1,15 @@
+# --- Workspace Names ---
+set $ws1 "1: "
+set $ws2 "2: 󱙺"
+set $ws3 "3: "
+
+assign [app_id="ghostty"] workspace $ws1
+assign [app_id="ghostty"] workspace $ws2
+assign [app_id="vimb"] workspace $ws3
+
+# --- Autostart ---
+exec swaymsg workspace $ws1; exec $term
+exec swaymsg workspace $ws2; exec $chatbot
+exec swaymsg workspace $ws3; exec $browser
+
+exec swaymsg workspace $ws1

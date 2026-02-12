@@ -1,0 +1,161 @@
+set $mod Mod4
+
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $term ghostty
+set $menu rofi -show drun
+set $browser firefox
+set $chatbot ghostty -e python ~/OrChat/orchat/main.py
+
+assign [app_id="vimb"] workspace 2
+
+# --- Autostart ---
+exec swaymsg workspace number 2; exec $browser
+
+output * bg ~/Downloads/wallhaven-rdj5zm.jpg fill
+
+output eDP-1 resolution 1920x1080@60.002Hz position 0 0
+output eDP-1 scale 1.25
+output DP-2 resolution 3840x2160@120.000Hz position 1920 0
+#output DP-2 resolution 3440x1440@120.000Hz position 1920 0
+output DP-2 scale 1.5
+focus output DP-2
+
+exec swayidle -w \
+  timeout 300 'swaylock -f -c 000000' \
+  timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+  before-sleep 'swaylock -f -c 000000'
+
+exec wl-paste -t text --watch clipman store --no-persist
+exec mako
+
+set $laptop eDP-1
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec $menu
+bindsym $mod+e exec $term -e yazi
+bindsym $mod+c exec $chatbot
+bindsym $mod+b exec $browser
+bindsym $mod+m exec $term -e aerc
+
+floating_modifier $mod normal
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+gaps inner 0
+smart_gaps on
+
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+bindsym $mod+g splith
+bindsym $mod+v splitv
+
+bindsym $mod+t layout toggle split
+
+bindsym $mod+f fullscreen
+
+bindsym $mod+Shift+space floating toggle
+
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+a focus parent
+
+bindsym $mod+Shift+minus move scratchpad
+
+bindsym $mod+minus scratchpad show
+
+bindsym $mod+r mode "resize"
+mode "resize" {
+bindsym $left resize shrink width 10px
+bindsym $down resize grow height 10px
+bindsym $up resize shrink height 10px
+bindsym $right resize grow width 10px
+
+bindsym Return mode "default"
+bindsym Escape mode "default"
+}
+
+default_border pixel 2
+
+# --- Audio Control with Mako Notification ---
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-send -e -h string:x-canonical-private-synchronous:volume -a "System" "Muted/Unmuted" -t 2000
+
+bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && notify-send -e -h string:x-canonical-private-synchronous:volume -h int:value:"$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2*100}')" -a "System" "Volume" -t 2000
+
+bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+ && notify-send -e -h string:x-canonical-private-synchronous:volume -h int:value:"$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2*100}')" -a "System" "Volume" -t 2000
+bindsym Print exec grim
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+	swaybar_command waybar
+}
+
+include /etc/sway/config.d/*
+
+# --- Sway Window Decorations (Gruvbox Material Dark) ---
+# class                 border  bground text    indicator child_border
+#client.focused          #7daea3 #3c3836 #dfbf8e #d8a657   #7daea3
+#client.focused_inactive #32302f #32302f #928374 #32302f   #32302f
+#client.unfocused        #282828 #282828 #928374 #282828   #282828
+#client.urgent           #ea6962 #ea6962 #dfbf8e #ea6962   #ea6962
+
+# --- Rosé Pine Color Palette ---
+set $base     #191724
+set $surface  #1f1d2e
+set $overlay  #26233a
+set $muted    #6e6a86
+set $subtle   #908caa
+set $text     #e0def4
+set $love     #eb6f92
+set $gold     #f6c177
+set $rose     #ebbcba
+set $pine     #31748f
+set $foam     #9ccfd8
+set $iris     #c4a7e7
+
+# --- Sway Window Decorations ---
+# class                 border  bground text    indicator child_border
+client.focused          $pine   $overlay $text   $love     $pine
+client.focused_inactive $muted   $base    $subtle $muted    $muted
+client.unfocused        $base    $base    $muted  $base     $base
+client.urgent           $love    $love    $base   $love     $love
