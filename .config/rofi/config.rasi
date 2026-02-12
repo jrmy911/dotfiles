@@ -1,0 +1,112 @@
+configuration {
+    modi: "drun";
+    icon-theme: "Rose-Pine";
+    show-icons: true;
+    terminal: "ghostty";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: " 󰀻  Apps ";
+    sidebar-mode: true;
+}
+
+  * {
+    /* --- Rosé Pine Moon/Dark Palette --- */
+    bg-col:       #191724;  /* base */
+    bg-alt:       #1f1d2e;  /* surface */
+    selected-col: #26233a;  /* overlay / selection bg */
+    
+    pine:         #31748f;  /* teal accent */
+    rose:         #ebbcba;  /* rose/gold accent */
+    love:         #eb6f92;  /* red for urgency */
+    text:         #e0def4;  /* foreground */
+    muted:        #6e6a86;  /* greyed out text */
+
+    width: 600;
+    font: "JetBrainsMono Nerd Font 12";
+}
+
+element-text, element-icon, mode-switcher {
+    background-color: inherit;
+    text-color:       inherit;
+}
+
+window {
+    height: 360px;
+    border: 2px;
+    border-color: @pine;    /* Sharp Pine border */
+    background-color: @bg-col;
+}
+
+mainbox {
+    background-color: @bg-col;
+}
+
+inputbar {
+    children: [prompt,entry];
+    background-color: @bg-col;
+    padding: 2px;
+}
+
+prompt {
+    background-color: @pine; /* Pine header block */
+    padding: 6px;
+    text-color: @bg-col;     /* Dark text inside header */
+    font: "JetBrainsMono Nerd Font Bold 12";
+    margin: 20px 0px 0px 20px;
+}
+
+entry {
+    padding: 6px;
+    margin: 20px 0px 0px 10px;
+    text-color: @text;
+    background-color: @bg-col;
+    placeholder: "Search...";
+    placeholder-color: @muted;
+}
+
+listview {
+    border: 0px;
+    padding: 10px 0px 0px;
+    margin: 10px 0px 0px 20px;
+    columns: 1;
+    lines: 5;
+    background-color: @bg-col;
+}
+
+element {
+    padding: 10px;
+    background-color: @bg-col;
+    text-color: @text;
+}
+
+/* THE SELECTION: Matches your Tmux Focus */
+element selected {
+    background-color:  @selected-col; /* Subtle surface highlight */
+    text-color:        @rose;         /* Text turns Rose */
+    border:            0px 0px 0px 4px; /* Left accent line */
+    border-color:      @rose;
+}
+
+element-text selected {
+    text-color: @rose;
+}
+
+mode-switcher {
+    spacing: 0;
+    margin: 10px 20px 20px 20px;
+}
+
+button {
+    padding: 10px;
+    background-color: @bg-alt;
+    text-color: @muted;
+    vertical-align: 0.5; 
+    horizontal-align: 0.5;
+}
+
+button selected {
+  background-color: @selected-col;
+  text-color: @pine;
+}

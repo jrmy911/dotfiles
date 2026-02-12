@@ -1,0 +1,25 @@
+# --- General Settings ---
+font=Jetbrains Mono Nerd Font 10
+text-color=#e0def4
+border-color=#524f67
+background-color=#26233a
+progress-color=over #31748f
+width=420
+height=110
+padding=10
+border-size=2
+icons=1
+max-icon-size=48
+default-timeout=5000
+
+# --- Center the OSD for Volume/Brightness ---
+[category=volume]
+anchor=top-center
+default-timeout=2000
+
+[category=brightness]
+anchor=top-center
+default-timeout=2000
+
+[urgency=high]
+border-color=#eb6f92

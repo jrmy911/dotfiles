@@ -1,0 +1,45 @@
+# Rosé Pine theme for btop
+# Main colors
+theme[main_bg]="#191724"
+theme[main_fg]="#e0def4"
+
+# Title and headers
+theme[title]="#e0def4"
+theme[hi_fg]="#ebbcba"
+theme[selected_bg]="#26233a"
+theme[selected_fg]="#eb6f92"
+
+# Inactive elements
+theme[inactive_fg]="#6e6a86"
+
+# Graphs and Gauges
+# Low (Pine Green), Mid (Gold), High (Rose)
+theme[graph_text]="#908caa"
+theme[meter_bg]="#26233a"
+theme[proc_misc]="#c4a7e7"
+
+# CPU Graph colors
+theme[cpu_start]="#31748f"
+theme[cpu_mid]="#f6c177"
+theme[cpu_end]="#eb6f92"
+
+# Memory Graph colors
+theme[mem_start]="#31748f"
+theme[mem_mid]="#f6c177"
+theme[mem_end]="#eb6f92"
+
+# Net Graph colors
+theme[net_start]="#31748f"
+theme[net_mid]="#f6c177"
+theme[net_end]="#eb6f92"
+
+# Process box colors
+theme[proc_start]="#31748f"
+theme[proc_mid]="#9ccfd8"
+theme[proc_end]="#c4a7e7"
+
+# Box outlines
+theme[div_line]="#403d52"
+theme[temp_start]="#31748f"
+theme[temp_mid]="#f6c177"
+theme[temp_end]="#eb6f92"
