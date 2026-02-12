@@ -1,39 +1,31 @@
-# Disable the blank line at start
 add_newline = false
 
-# Single line, no blocks, clear hierarchy
 format = "$directory$git_branch$git_status$character"
 
 [directory]
-# Use the Gruvbox Yellow for the path
-style = "bold #d8a657"
+style = "bold #31748f"
 format = "[$path]($style) "
 truncation_length = 3
 
 [git_branch]
-# Use the Gruvbox Blue for the branch name
 symbol = "󰊢 "
-style = "bold #7daea3"
-format = "[$symbol$branch]($style) "
+style = "bold #ebbcba"
+format = "on [$symbol$branch]($style) "
 
 [git_status]
-# Subtle Grey for status symbols
-style = "#928374"
+style = "#908caa"
 format = "[($all_status$ahead_behind )]($style)"
 
 [character]
-# The prompt indicator
-success_symbol = "[󰄾](bold #d8a657) " 
-error_symbol = "[󰄾](bold #ea6962) "
+success_symbol = "[󰄾](bold #f6c177) " 
+error_symbol = "[󰄾](bold #eb6f92) "
 
-# Configuration for other modules if they appear
 [python]
 symbol = " "
-style = "#a9b665"
+style = "#9ccfd8"
 format = "[$symbol]($style)"
 
 [rust]
 symbol = " "
-style = "#ea6962"
+style = "#eb6f92"
 format = "[$symbol]($style)"
-
