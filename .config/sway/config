@@ -7,20 +7,13 @@ set $right l
 
 set $term ghostty
 set $menu rofi -show drun
-set $browser firefox
-set $chatbot ghostty -e python ~/OrChat/orchat/main.py
+set $browser browsh
 
-assign [app_id="vimb"] workspace 2
-
-# --- Autostart ---
-exec swaymsg workspace number 2; exec $browser
-
-output * bg ~/Downloads/wallhaven-rdj5zm.jpg fill
+#output * bg ~/Downloads/wallhaven-rdj5zm.jpg fill
 
 output eDP-1 resolution 1920x1080@60.002Hz position 0 0
 output eDP-1 scale 1.25
 output DP-2 resolution 3840x2160@120.000Hz position 1920 0
-#output DP-2 resolution 3440x1440@120.000Hz position 1920 0
 output DP-2 scale 1.5
 focus output DP-2
 
@@ -41,7 +34,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 bindsym $mod+e exec $term -e yazi
 bindsym $mod+c exec $chatbot
-bindsym $mod+b exec $browser
+bindsym $mod+b exec $term -e $browser
 bindsym $mod+m exec $term -e aerc
 
 floating_modifier $mod normal
