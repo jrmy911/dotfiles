@@ -1,0 +1,15 @@
+color background         default  default
+color listnormal         white    default
+color listfocus          white    color97
+color listnormal_unread  magenta  default
+color listfocus_unread   white    color97
+color info               white    color97
+color article            white    default
+
+highlight article "^Feed:.*"          magenta  default  bold
+highlight article "^Title:.*"         magenta  default  bold
+highlight article "^Author:.*"        white    default
+highlight article "^Date:.*"          color97  default
+highlight article "^Link:.*"          cyan     default
+highlight article "\\[[0-9][0-9]*\\]" color97  default  bold
+highlight article "\\[image.*\\]"     color97  default  bold
