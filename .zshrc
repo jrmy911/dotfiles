@@ -78,8 +78,6 @@ alias azrg='az group list -o table'
 
 export EDITOR=nvim
 
-
-
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
