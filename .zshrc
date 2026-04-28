@@ -56,7 +56,6 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-
 # Aliases
 alias ls='eza -lh --group-directories-first --icons=auto'
 alias lt='eza --tree --level=2 --long --icons --git'
@@ -64,14 +63,20 @@ alias vim='nvim'
 alias cat='bat'
 alias c='clear'
 alias tf='terraform'
-alias ds='ddgr -j'
-alias d='ddgr'
 alias gcaz='git clone -c "core.sshCommand=ssh -i ~/.ssh/id_rsa"'
 alias azpr='az repos pr create -o table --target-branch main'
 alias azsub='az account set --subscription'
 alias azrg='az group list -o table'
 
 export EDITOR=nvim
+
+ws() {
+  if [ -z "$1" ]; then
+    echo "Please provide a customer name. Usage: ws acme_corp"
+    return 1
+  fi
+  CUSTOMER_NAME=$1 docker compose -f /path/to/your/docker-compose.yml run --rm workspace zsh
+}
 
 # Shell integrations
 eval "$(fzf --zsh)"
