@@ -72,10 +72,10 @@ export EDITOR=nvim
 
 ws() {
   if [ -z "$1" ]; then
-    echo "Please provide a customer name. Usage: ws acme_corp"
+    echo "Please provide a customer name. Usage: ws customer"
     return 1
   fi
-  CUSTOMER_NAME=$1 docker compose -f /path/to/your/docker-compose.yml run --rm workspace zsh
+  CUSTOMER_NAME=$1 docker compose -f $HOME/dev-container/docker-compose.yml run --rm workspace zsh
 }
 
 # Shell integrations
