@@ -7,7 +7,8 @@ set $right l
 
 set $term ghostty
 set $menu rofi -show drun
-set $browser browsh
+set $browser zen-browser
+set $music subtui
 
 #output * bg ~/Downloads/wallhaven-rdj5zm.jpg fill
 
@@ -33,9 +34,9 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 bindsym $mod+e exec $term -e yazi
-bindsym $mod+c exec $chatbot
-bindsym $mod+b exec $term -e $browser
+bindsym $mod+b exec $browser
 bindsym $mod+m exec $term -e aerc
+bindsym $mod+n exec $term -e subtui
 
 floating_modifier $mod normal
 
