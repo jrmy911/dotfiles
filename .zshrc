@@ -75,7 +75,7 @@ ws() {
     echo "Please provide a customer name. Usage: ws customer"
     return 1
   fi
-  CUSTOMER_NAME=$1 docker compose -f $HOME/dev-container/docker-compose.yml run --rm workspace zsh
+  docker compose --env-file $HOME/dev-container/envs/$1.env run --rm workspace zsh
 }
 
 # Shell integrations
