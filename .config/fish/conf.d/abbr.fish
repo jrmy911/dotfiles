@@ -1,0 +1,7 @@
+abbr -a -- gl 'git pull'
+abbr -a -- gp 'git push'
+abbr -a -- gc 'git commit -m'
+abbr -a -- gcb 'git checkout -b'
+abbr -a -- gcm 'git checkout main'
+abbr -a -- gaa 'git add .'
+abbr -a -- ga 'git add' 
