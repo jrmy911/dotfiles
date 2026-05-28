@@ -3,19 +3,19 @@ add_newline = false
 format = "$directory$git_branch$git_status$character"
 
 [directory]
-style = "#8a9868"
+style = "#8999AA"
 format = "[$path]($style) "
 truncation_length = 3
 
 [git_branch]
 symbol = "󰊢 "
-style = "#e08060"
+style = "#E0A568"
 format = "on [$symbol$branch]($style) "
 
 [git_status]
-style = "#908caa"
+style = "#98A0AE"
 format = "[($all_status$ahead_behind )]($style)"
 
 [character]
-success_symbol = "[󰄾](bold #f6c177) " 
-error_symbol = "[󰄾](bold #eb6f92) "
+success_symbol = "[󰄾](bold #E37B66) " 
+error_symbol = "[󰄾](bold #CB886D) "
