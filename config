@@ -1,7 +1,7 @@
 font-family = "Iosevka Nerd Font"
-theme = "Gruvbox Material Dark"
-window-padding-x = 20 
-window-padding-y = 20
+theme = "bauhaus"
+window-padding-x = 30
+window-padding-y = 30
 window-decoration = false
 mouse-hide-while-typing = true
 font-size = 17
