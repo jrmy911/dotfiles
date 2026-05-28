@@ -7,3 +7,4 @@ fish_add_path $HOME/.opencode/bin
 fish_add_path $HOME/.cargo/bin
 
 starship init fish | source
+zoxide init fish | source
