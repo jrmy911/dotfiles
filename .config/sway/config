@@ -126,30 +126,25 @@ bar {
 
 include /etc/sway/config.d/*
 
-# --- Sway Window Decorations (Gruvbox Material Dark) ---
-# class                 border  bground text    indicator child_border
-#client.focused          #7daea3 #3c3836 #dfbf8e #d8a657   #7daea3
-#client.focused_inactive #32302f #32302f #928374 #32302f   #32302f
-#client.unfocused        #282828 #282828 #928374 #282828   #282828
-#client.urgent           #ea6962 #ea6962 #dfbf8e #ea6962   #ea6962
-
-# --- Rosé Pine Color Palette ---
-set $base     #191724
-set $surface  #1f1d2e
-set $overlay  #26233a
-set $muted    #6e6a86
-set $subtle   #908caa
-set $text     #e0def4
-set $love     #eb6f92
-set $gold     #f6c177
-set $rose     #ebbcba
-set $pine     #31748f
-set $foam     #9ccfd8
-set $iris     #c4a7e7
+# --- Color Palette ---
+set $primary_bg       #101318
+set $secondary_bg     #161B22
+set $tertiary_bg      #222733
+set $primary_accent   #E37B66
+set $secondary_accent #E0A568
+set $tertiary_accent  #809D9E
+set $text_primary     #EAEFF5
+set $text_secondary   #C6CED8
+set $text_dim         #98A0AE
+set $success          #789FA2
+set $warning          #E7A46F
+set $error            #CB886D
+set $info             #8999AA
+set $selection_bg     #2B3040
 
 # --- Sway Window Decorations ---
-# class                 border  bground text    indicator child_border
-client.focused          $pine   $overlay $text   $love     $pine
-client.focused_inactive $muted   $base    $subtle $muted    $muted
-client.unfocused        $base    $base    $muted  $base     $base
-client.urgent           $love    $love    $base   $love     $love
+# class                 border           bground          text             indicator        child_border
+client.focused          $tertiary_accent $tertiary_bg     $text_primary    $tertiary_accent $tertiary_accent
+client.focused_inactive $text_dim        $secondary_bg    $text_secondary  $text_dim        $text_dim
+client.unfocused        $primary_bg      $primary_bg      $text_dim        $primary_bg      $primary_bg
+client.urgent           $error           $error           $text_primary    $error           $error
