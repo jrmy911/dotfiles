@@ -8,7 +8,7 @@ fish_add_path $HOME/.cargo/bin
 
 function fish_greeting
     echo Hello Jeremy!
-    echo The time is (set_color yellow)(date +%T)(set_color --reset).
+    echo The time is (set_color yellow)(date +%T)(set_color --reset) \n.
 end
 
 starship init fish | source
