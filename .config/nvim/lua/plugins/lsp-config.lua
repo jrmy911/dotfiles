@@ -19,11 +19,9 @@ return {
         ensure_installed = {
           "lua_ls",
           "bashls",
-          "ansiblels",
           "terraformls",
           "dockerls",
           "docker_compose_language_service",
-          "bicep",
           "helm_ls",
           "pylsp",
         },
