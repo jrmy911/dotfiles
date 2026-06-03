@@ -7,15 +7,11 @@ return {
       "hrsh7th/cmp-nvim-lsp", -- Required for capabilities
     },
     config = function()
-      -- 1. Setup Mason
       require("mason").setup()
 
-      -- 2. Validate Capabilities (Auto-completion support)
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      -- 3. Setup Mason-LSPConfig
       require("mason-lspconfig").setup({
-        -- specific lsp servers (tflint removed as it is not an LSP)
         ensure_installed = {
           "lua_ls",
           "bashls",
@@ -24,18 +20,15 @@ return {
           "docker_compose_language_service",
           "helm_ls",
           "pylsp",
+          "gopls"
         },
-        -- AUTOMATIC SETUP (The Fix)
         handlers = {
-          -- The Default Handler:
-          -- Applies to every server in 'ensure_installed' unless overridden below
           function(server_name)
             require("lspconfig")[server_name].setup({
               capabilities = capabilities,
             })
           end,
 
-          -- Example: Overriding specific settings for Lua (optional)
           ["lua_ls"] = function()
             require("lspconfig").lua_ls.setup({
               capabilities = capabilities,
@@ -49,7 +42,6 @@ return {
         },
       })
 
-      -- 4. Keymaps (Best Practice: Only set when LSP attaches)
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
         callback = function(ev)

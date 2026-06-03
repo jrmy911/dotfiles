@@ -1,14 +1,18 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = "main",
   lazy = false,
   build = ":TSUpdate",
   config = function()
-    require("nvim-treesitter").setup({
-      ensure_installed = { "lua", "vim", "markdown", "terraform", "go", "gomod", "gosum", "gowork" },
-      auto_install = { enable = true },
+    local treesitter = require("nvim-treesitter")
+    treesitter.setup()
+    treesitter.install { 'lua', 'vim', 'vimdoc', 'yaml', 'go', 'terraform' }
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = { 'lua', 'vim', 'vimdoc', 'yaml', 'go', 'terraform' },
+      callback = function()
+        vim.treesitter.start()
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
     })
-    -- Highlight and indent are now handled by Neovim's built-in treesitter
-    -- (enabled by default in Neovim 0.10+)
-  end,
+  end
 }
