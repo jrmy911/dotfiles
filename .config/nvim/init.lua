@@ -24,15 +24,6 @@ require("lazy").setup({
   checker = { enabled = true },
 })
 
-local zeavim_path = vim.fn.stdpath("data") .. "/lazy/zeavim.vim/plugin/zeavim.vim"
-local lines = vim.fn.readfile(zeavim_path)
-for i, line in ipairs(lines) do
-  if line:match("^set fileformat=") then
-    lines[i] = '" ' .. line -- comment it out
-  end
-end
-vim.fn.writefile(lines, zeavim_path)
-
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
