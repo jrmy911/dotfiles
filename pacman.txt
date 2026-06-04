@@ -32,6 +32,8 @@ task
 terraform 
 tldr 
 tmux
+tree-sitter
+tree-sitter-cli
 unzip
 vim 
 wget
