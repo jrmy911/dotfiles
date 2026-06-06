@@ -200,5 +200,17 @@
     "bindings": {
       "space enter": "workspace::NewCenterTerminal"
     }
+  },
+  {
+    "context": "Editor && extension == md",
+    "bindings": {
+      "space m p": "markdown::OpenPreview"
+    }
+  },
+  {
+    "context": "Editor && extension == md",
+    "unbind": {
+      "ctrl-shift-v": "markdown::OpenPreview"
+    }
   }
 ]
