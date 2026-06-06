@@ -212,5 +212,17 @@
     "unbind": {
       "ctrl-shift-v": "markdown::OpenPreview"
     }
+  },
+  {
+    "context": "GitPanel",
+    "bindings": {
+      "space g l": "git::Pull"
+    }
+  },
+  {
+    "context": "GitPanel",
+    "unbind": {
+      "ctrl-g down": "git::Pull"
+    }
   }
 ]
