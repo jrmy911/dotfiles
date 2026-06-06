@@ -21,7 +21,7 @@
   {
     "context": "Workspace",
     "bindings": {
-      "ctrl-shift-d": "diagnostics::Deploy"
+      "space d": "diagnostics::Deploy"
     }
   },
   {
@@ -44,7 +44,7 @@
   {
     "context": "((VimControl && !menu) || (!Editor && !Terminal))",
     "bindings": {
-      "ctrl-space shift-\\": "pane::SplitVertical"
+      "ctrl-space |": "pane::SplitVertical"
     }
   },
   {
@@ -174,12 +174,6 @@
   },
   {
     "context": "Pane",
-    "bindings": {
-      "space s": "search::ToggleReplace"
-    }
-  },
-  {
-    "context": "Pane",
     "unbind": {
       "ctrl-alt-shift-h": "search::ToggleReplace"
     }
@@ -223,6 +217,144 @@
     "context": "GitPanel",
     "unbind": {
       "ctrl-g down": "git::Pull"
+    }
+  },
+  {
+    "context": "BufferSearchBar",
+    "bindings": {
+      "space s s": "search::ToggleReplace"
+    }
+  },
+  {
+    "context": "BufferSearchBar",
+    "unbind": {
+      "ctrl-h": "search::ToggleReplace"
+    }
+  },
+  {
+    "context": "BufferSearchBar && in_replace > Editor",
+    "bindings": {
+      "enter": "search::ReplaceAll"
+    }
+  },
+  {
+    "context": "BufferSearchBar && in_replace > Editor",
+    "unbind": {
+      "ctrl-enter": "search::ReplaceAll"
+    }
+  },
+  {
+    "context": "!Editor && !Terminal",
+    "bindings": {
+      "space j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "!Editor && !Terminal",
+    "unbind": {
+      "space w j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "!Editor && !Terminal",
+    "bindings": {
+      "space alt-h": "workspace::ActivatePaneLeft"
+    }
+  },
+  {
+    "context": "!Editor && !Terminal",
+    "unbind": {
+      "space w h": "workspace::ActivatePaneLeft"
+    }
+  },
+  {
+    "context": "!Editor && !Terminal",
+    "bindings": {
+      "space alt-l": "workspace::ActivatePaneRight"
+    }
+  },
+  {
+    "context": "!Editor && !Terminal",
+    "unbind": {
+      "space w l": "workspace::ActivatePaneRight"
+    }
+  },
+  {
+    "context": "!Editor && !Terminal",
+    "bindings": {
+      "space alt-k": "workspace::ActivatePaneUp"
+    }
+  },
+  {
+    "context": "!Editor && !Terminal",
+    "unbind": {
+      "space w k": "workspace::ActivatePaneUp"
+    }
+  },
+  {
+    "context": "Editor && edit_prediction",
+    "unbind": {
+      "alt-l": "editor::AcceptEditPrediction"
+    }
+  },
+  {
+    "context": "Editor && edit_prediction",
+    "unbind": {
+      "alt-k": "editor::AcceptNextWordEditPrediction"
+    }
+  },
+  {
+    "context": "Editor && edit_prediction",
+    "unbind": {
+      "alt-j": "editor::AcceptNextLineEditPrediction"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+    "bindings": {
+      "space alt-h": "workspace::ActivatePaneLeft"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+    "unbind": {
+      "space w h": "workspace::ActivatePaneLeft"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+    "bindings": {
+      "space alt-l": "workspace::ActivatePaneRight"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+    "unbind": {
+      "space w l": "workspace::ActivatePaneRight"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+    "bindings": {
+      "space j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+    "unbind": {
+      "space w j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+    "bindings": {
+      "space alt-k": "workspace::ActivatePaneUp"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+    "unbind": {
+      "space w k": "workspace::ActivatePaneUp"
     }
   }
 ]
