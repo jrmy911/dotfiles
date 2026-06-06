@@ -1,0 +1,170 @@
+{
+    "collaboration_panel": {
+        "button": false,
+        "dock": "right"
+    },
+    "document_symbols": "off",
+    "outline_panel": {
+        "dock": "left",
+        "git_status": true,
+        "button": false
+    },
+    "active_pane_modifiers": {
+        "border_size": 2.0,
+        "inactive_opacity": 0.7
+    },
+    "preview_tabs": {
+        "enable_preview_from_project_panel": false
+    },
+    "autosave": "off",
+    "ui_font_family": "JetBrainsMono Nerd Font",
+    "use_system_window_tabs": false,
+    "window_decorations": "client",
+    "bottom_dock_layout": "contained",
+    "tab_bar": {
+        "show_nav_history_buttons": true,
+        "show_tab_bar_buttons": true,
+        "show": false
+    },
+    "tabs": {
+        "close_position": "right",
+        "show_close_button": "hidden",
+        "git_status": false
+    },
+    "debugger": {
+        "button": false
+    },
+    "search": {
+        "button": false
+    },
+    "diagnostics": {
+        "button": false
+    },
+    "status_bar": {
+        "cursor_position_button": false,
+        "active_language_button": true
+    },
+    "project_panel": {
+        "scrollbar": {
+            "horizontal_scroll": false
+        },
+        "dock": "left",
+        "button": false
+    },
+    "tab_size": 4,
+    "toolbar": {
+        "agent_review": true
+    },
+    "scrollbar": {
+        "axes": {
+            "vertical": false,
+            "horizontal": false
+        },
+        "diagnostics": "warning",
+        "show": "never"
+    },
+    "buffer_font_family": "JetBrainsMono Nerd Font",
+    "ssh_connections": [
+        {
+            "host": "192.168.1.250",
+            "username": "jrmy911",
+            "args": [],
+            "projects": [
+                {
+                    "paths": [
+                        "/home/jrmy911/dev/gaze"
+                    ]
+                }
+            ],
+            "nickname": "arch-dev"
+        }
+    ],
+    "git_panel": {
+        "button": false,
+        "tree_view": true,
+        "status_style": "icon",
+        "dock": "left"
+    },
+    "calls": {
+        "mute_on_join": true
+    },
+    "title_bar": {
+        "show_menus": false,
+        "show_user_picture": false,
+        "show_user_menu": false,
+        "show_sign_in": false,
+        "show_onboarding_banner": false,
+        "show_project_items": true,
+        "show_branch_name": true
+    },
+    "auto_update": false,
+    "terminal": {
+        "font_size": 20.0,
+        "shell": "system",
+        "button": false,
+        "dock": "right"
+    },
+    "vim": {
+        "cursor_shape": {
+            "replace": "bar"
+        },
+        "gdefault": true,
+        "toggle_relative_line_numbers": true
+    },
+    "languages": {
+        "Ansible": {
+            "tab_size": 2
+        },
+        "Bicep": {
+            "tab_size": 2
+        }
+    },
+    "restore_on_startup": "none",
+    "agent": {
+        "dock": "right",
+        "button": false,
+        "default_profile": "write",
+        "default_model": {
+            "enable_thinking": true,
+            "provider": "openrouter",
+            "model": "z-ai/glm-5.1"
+        },
+        "model_parameters": []
+    },
+    "icon_theme": "Material Icon Theme",
+    "wsl_connections": [],
+    "vim_mode": true,
+    "telemetry": {
+        "diagnostics": false,
+        "metrics": false
+    },
+    "ui_font_size": 16,
+    "buffer_font_size": 18.0,
+    "theme": {
+        "mode": "system",
+        "light": "One Light",
+        "dark": "Bauhaus Dark"
+    },
+    "file_types": {
+        "Ansible": [
+            "**.ansible.yml",
+            "**.ansible.yaml",
+            "**/defaults/*.yml",
+            "**/defaults/*.yaml",
+            "**/meta/*.yml",
+            "**/meta/*.yaml",
+            "**/tasks/*.yml",
+            "**/tasks/*.yaml",
+            "**/handlers/*.yml",
+            "**/handlers/*.yaml",
+            "**/group_vars/*.yml",
+            "**/group_vars/*.yaml",
+            "**/host_vars/*.yml",
+            "**/host_vars/*.yaml",
+            "**/playbooks/*.yml",
+            "**/playbooks/*.yaml",
+            "**playbook*.yml",
+            "**playbook*.yaml"
+        ]
+    }
+}
