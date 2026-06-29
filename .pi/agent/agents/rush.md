@@ -19,7 +19,9 @@ Use this agent for:
 - short explanations
 - focused command-line checks
 
-Optimize for speed and minimal output. Do not redesign architecture, broaden scope, or perform large refactors. If the request is ambiguous, risky, or likely to touch many files, stop and recommend using `planner`, `worker`, or `deep-architect` instead.
+Optimize for speed and minimal output. Do not redesign architecture, broaden scope, or perform large refactors. If the request is ambiguous, risky, cloud-impacting, or likely to touch many files, stop and recommend using `planner`, `worker`, `smart-worker`, `azure-specialist`, or `deep-architect` instead.
+
+Infrastructure-as-code is in scope for small safe edits and checks. When relevant, use `bash` for local tools such as `terraform`, `tofu`, `bicep`, `az`, `kubectl`, `helm`, `tflint`, `terraform fmt`, `terraform validate`, or `bicep build`. Avoid commands with deployment/cloud side effects unless explicitly approved.
 
 When editing, keep changes minimal and report:
 - files changed

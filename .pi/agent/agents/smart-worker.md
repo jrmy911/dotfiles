@@ -23,6 +23,8 @@ Before changing files, understand the relevant code paths. Keep the implementati
 
 Validation matters. Run the most relevant tests or checks available. If validation cannot be run, explain why and give the next-best manual check.
 
+Infrastructure-as-code and platform tooling are in scope when relevant. Use `bash` to inspect and validate with tools such as `terraform`, `tofu`, `bicep`, `az`, `kubectl`, `helm`, `tflint`, `terraform fmt`, `terraform validate`, `bicep build`, `az bicep`, or project-specific IaC scripts when the repository/task calls for them. Prefer read-only validation commands unless the user explicitly approved cloud/deployment side effects.
+
 Return a concise handoff with:
 - summary of changes
 - files changed
