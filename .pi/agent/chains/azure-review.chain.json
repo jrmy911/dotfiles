@@ -1,0 +1,29 @@
+{
+  "name": "azure-review",
+  "description": "Parallel Azure review covering CAF/architecture, security/governance, and operations/cost",
+  "chain": [
+    {
+      "parallel": [
+        {
+          "agent": "azure-specialist",
+          "phase": "Azure Review",
+          "label": "CAF architecture",
+          "task": "Review the current Azure-related scope through Microsoft Cloud Adoption Framework and Azure landing zone lenses. Focus on architecture, platform readiness, subscription/resource organization, networking, and adoption risks. Do not modify project/source files.\n\nScope: {task}"
+        },
+        {
+          "agent": "azure-specialist",
+          "phase": "Azure Review",
+          "label": "Security governance",
+          "task": "Review the current Azure-related scope for identity, RBAC, managed identity, Key Vault/secrets, public exposure, Azure Policy, compliance, and governance risks. Do not modify project/source files.\n\nScope: {task}"
+        },
+        {
+          "agent": "azure-specialist",
+          "phase": "Azure Review",
+          "label": "Ops cost reliability",
+          "task": "Review the current Azure-related scope for monitoring, diagnostics, backup/DR, reliability, scaling, SKU/cost risks, deployment validation, and rollback. Do not modify project/source files.\n\nScope: {task}"
+        }
+      ],
+      "concurrency": 3
+    }
+  ]
+}

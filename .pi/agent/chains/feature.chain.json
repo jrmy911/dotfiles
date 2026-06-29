@@ -1,0 +1,50 @@
+{
+  "name": "feature",
+  "description": "Scout, plan, implement, then review a feature or non-trivial bug fix",
+  "chain": [
+    {
+      "agent": "scout",
+      "phase": "Recon",
+      "label": "Map code",
+      "as": "context",
+      "task": "Map the relevant code for this request and identify key files, constraints, existing patterns, and likely validation commands. Do not modify files.\n\nRequest: {task}"
+    },
+    {
+      "agent": "planner",
+      "phase": "Planning",
+      "label": "Create plan",
+      "as": "plan",
+      "task": "Create a practical implementation plan from this context. Include scope, non-goals, likely files, risks, and validation contract.\n\nRequest: {task}\n\nContext:\n{outputs.context}"
+    },
+    {
+      "agent": "smart-worker",
+      "phase": "Implementation",
+      "label": "Implement",
+      "as": "implementation",
+      "task": "Implement the approved plan. Keep changes focused, run relevant validation, and report changed files and command results. Escalate unapproved product/API/architecture decisions instead of guessing.\n\nRequest: {task}\n\nPlan:\n{outputs.plan}"
+    },
+    {
+      "parallel": [
+        {
+          "agent": "reviewer",
+          "phase": "Review",
+          "label": "Correctness",
+          "task": "Review the resulting diff for correctness, regressions, and edge cases. Do not modify project/source files. Start from this implementation handoff:\n\n{outputs.implementation}"
+        },
+        {
+          "agent": "reviewer",
+          "phase": "Review",
+          "label": "Tests",
+          "task": "Review the resulting diff for missing or weak tests and validation gaps. Do not modify project/source files. Start from this implementation handoff:\n\n{outputs.implementation}"
+        },
+        {
+          "agent": "cleanup-reviewer",
+          "phase": "Review",
+          "label": "Cleanup",
+          "task": "Review the resulting diff for simplicity, duplication, verbosity, and AI-slop. Do not modify project/source files. Start from this implementation handoff:\n\n{outputs.implementation}"
+        }
+      ],
+      "concurrency": 3
+    }
+  ]
+}

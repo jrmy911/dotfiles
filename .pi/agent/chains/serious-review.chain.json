@@ -1,0 +1,35 @@
+{
+  "name": "serious-review",
+  "description": "Parallel review from correctness, tests, security, and cleanup angles",
+  "chain": [
+    {
+      "parallel": [
+        {
+          "agent": "reviewer",
+          "phase": "Review",
+          "label": "Correctness",
+          "task": "Review the current diff for correctness, regressions, edge cases, and likely runtime failures. Do not modify project/source files. Return concrete findings with file paths and line references.\n\nScope: {task}"
+        },
+        {
+          "agent": "reviewer",
+          "phase": "Review",
+          "label": "Tests",
+          "task": "Review the current diff for missing tests, weak assertions, invalid mocks, and validation gaps. Do not modify project/source files. Return concrete findings with file paths and line references.\n\nScope: {task}"
+        },
+        {
+          "agent": "reviewer",
+          "phase": "Review",
+          "label": "Security",
+          "task": "Review the current diff for security, privacy, injection, authz/authn, secret handling, and dependency risks. Do not modify project/source files. Return concrete findings with file paths and line references.\n\nScope: {task}"
+        },
+        {
+          "agent": "cleanup-reviewer",
+          "phase": "Review",
+          "label": "Cleanup",
+          "task": "Review the current diff for simplicity, maintainability, duplication, verbosity, and AI-slop. Do not modify project/source files. Return concrete findings with file paths and line references.\n\nScope: {task}"
+        }
+      ],
+      "concurrency": 4
+    }
+  ]
+}

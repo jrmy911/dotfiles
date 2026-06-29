@@ -1,0 +1,31 @@
+{
+  "name": "research-plan",
+  "description": "Research external evidence plus local code context, then synthesize an implementation plan",
+  "chain": [
+    {
+      "parallel": [
+        {
+          "agent": "library-researcher",
+          "phase": "Research",
+          "label": "External evidence",
+          "as": "research",
+          "task": "Research external docs, source code, release notes, and ecosystem behavior relevant to this request. Prefer primary sources and include citations.\n\nRequest: {task}"
+        },
+        {
+          "agent": "context-builder",
+          "phase": "Context",
+          "label": "Local code",
+          "as": "localContext",
+          "task": "Build local codebase context for this request. Identify relevant files, patterns, constraints, tests, and validation commands. Do not modify files.\n\nRequest: {task}"
+        }
+      ],
+      "concurrency": 2
+    },
+    {
+      "agent": "planner",
+      "phase": "Planning",
+      "label": "Synthesize plan",
+      "task": "Synthesize a practical implementation plan using the external research and local context. Include recommendation, alternatives, likely files, validation contract, risks, and open questions.\n\nRequest: {task}\n\nPrior results:\n{previous}"
+    }
+  ]
+}
