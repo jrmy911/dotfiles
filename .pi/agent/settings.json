@@ -1,0 +1,10 @@
+{
+  "lastChangelogVersion": "0.80.2",
+  "defaultProvider": "openrouter",
+  "defaultModel": "anthropic/claude-opus-4.5",
+  "defaultThinkingLevel": "minimal",
+  "theme": "dark/bauhaus",
+  "treeFilterMode": "default",
+  "quietStartup": true,
+  "hideThinkingBlock": true
+}
