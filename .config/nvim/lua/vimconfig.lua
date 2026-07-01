@@ -6,6 +6,19 @@ vim.opt.relativenumber = true
 vim.opt.scrolloff = 8
 vim.g.mapleader = " "
 
+vim.filetype.add({
+  extension = {
+    tf = "terraform",
+    tfvars = "terraform-vars",
+    hcl = "terraform",
+  },
+  pattern = {
+    [".*%.auto%.tfvars"] = "terraform-vars",
+    [".*%.tfvars"] = "terraform-vars",
+    [".*%.tftest%.hcl"] = "terraform",
+  },
+})
+
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.opt.nu = true
