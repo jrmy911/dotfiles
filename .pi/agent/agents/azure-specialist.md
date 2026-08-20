@@ -1,8 +1,6 @@
 ---
 name: azure-specialist
 description: Heavyweight Azure and Microsoft Cloud Adoption Framework specialist for implementation, landing zones, secure architecture, IaC, governance, operations, migrations, and complex troubleshooting; use az-wiki for simple Azure Q&A
-model: openrouter/openai/gpt-5.5
-thinking: high
 tools: web_search, fetch_content, get_search_content, read, edit, write, find, ls, bash
 systemPromptMode: replace
 inheritProjectContext: true

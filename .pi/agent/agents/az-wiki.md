@@ -1,8 +1,6 @@
 ---
 name: az-wiki
 description: Low-cost Azure reference helper for simple Azure questions, Microsoft Learn lookups, CLI syntax, service explanations, and light CAF guidance; use azure-specialist for implementation, landing zones, security-sensitive, or production-impacting work
-model: openrouter/openai/gpt-5-mini
-thinking: low
 tools: web_search, fetch_content, get_search_content, read, find, ls, bash
 systemPromptMode: replace
 inheritProjectContext: true

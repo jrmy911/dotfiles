@@ -1,0 +1,69 @@
+onboarding = false
+
+[terminal]
+new_cwd = "follow"
+
+[theme]
+name = "vesper"
+auto_switch = false
+
+[theme.custom]
+accent = "#E37B66"
+panel_bg = "#101318"
+surface0 = "#222733"
+surface1 = "#2B3040"
+surface_dim = "#161B22"
+overlay0 = "#3A3F4C"
+overlay1 = "#98A0AE"
+text = "#EAEFF5"
+subtext0 = "#C6CED8"
+mauve = "#E37B66"
+green = "#789FA2"
+yellow = "#E0A568"
+red = "#CB886D"
+blue = "#8999AA"
+teal = "#809D9E"
+peach = "#E7A46F"
+
+[keys]
+prefix = "ctrl+space"
+previous_tab = ""
+toggle_sidebar = "prefix+p"
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
+detach = "prefix+d"
+
+reload_config = "prefix+shift+r"
+
+rename_workspace = "prefix+$"
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+switch_workspace = "prefix+shift+1..9"
+previous_workspace = "prefix+left"
+next_workspace = "prefix+right"
+
+[ui]
+agent_panel_sort = "priority"
+show_agent_labels_on_pane_borders = true
+hide_tab_bar_when_single_tab = true
+sidebar_start_collapsed = true
+sidebar_collapsed_mode = "compact"
+
+status_indicators = "symbols"
+[ui.toast]
+delivery = "terminal"
+delay_seconds = 2
+
+[[keys.command]]
+key = "prefix+shift+l"
+type = "popup"
+command = "lazygit"
+description = "run lazygit"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+f"
+type = "plugin_action"
+command = "thomasschafer.herdr-kiosk.open-picker"
+description = "open repo picker"

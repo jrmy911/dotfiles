@@ -1,0 +1,11 @@
+   pi/agent/auth.json
+   pi/agent/sessions/
+   pi/agent/tmp/
+   pi/agent/run-history.jsonl
+
+   pi/agent/npm/
+   pi/agent/**/node_modules/
+
+   .DS_Store
+   *.swp
+   *.swo

@@ -194,8 +194,7 @@ export default function subagentResultTui(pi: ExtensionAPI) {
 		}
 	}
 
-	function scanSessionForFinalResults(ctx = currentCtx): void {
-		if (!ctx || ctx.mode !== "tui") return;
+	function getSlashResultEntries(ctx: ExtensionContext): SlashDetails[] {
 		const entries = ctx.sessionManager.getEntries() as Array<{
 			type?: string;
 			customType?: string;
@@ -203,10 +202,22 @@ export default function subagentResultTui(pi: ExtensionAPI) {
 			message?: { customType?: string; details?: unknown };
 		}>;
 
-		for (const entry of entries) {
-			const customType = entry.customType ?? entry.message?.customType;
-			if (customType !== SLASH_RESULT_TYPE) continue;
-			const details = (entry.details ?? entry.message?.details) as SlashDetails | undefined;
+		return entries
+			.filter((entry) => (entry.customType ?? entry.message?.customType) === SLASH_RESULT_TYPE)
+			.map((entry) => (entry.details ?? entry.message?.details) as SlashDetails | undefined)
+			.filter((details): details is SlashDetails => Boolean(details?.result));
+	}
+
+	function markExistingResultsShown(ctx = currentCtx): void {
+		if (!ctx || ctx.mode !== "tui") return;
+		for (const details of getSlashResultEntries(ctx)) {
+			if (details.requestId) shownRequestIds.add(details.requestId);
+		}
+	}
+
+	function scanSessionForFinalResults(ctx = currentCtx): void {
+		if (!ctx || ctx.mode !== "tui") return;
+		for (const details of getSlashResultEntries(ctx)) {
 			if (!isFinalResult(details)) continue;
 			void openResult(details, ctx);
 		}
@@ -225,6 +236,10 @@ export default function subagentResultTui(pi: ExtensionAPI) {
 
 	pi.on("session_start", (_event, ctx) => {
 		currentCtx = ctx;
+		// On startup/reload, the current session can contain old completed /run
+		// results. Mark them as already shown so reload does not reopen historical
+		// dialogs. New /run results get a new requestId and will still open.
+		markExistingResultsShown(ctx);
 		if (ctx.mode === "tui") ensureWatcher(ctx);
 	});
 
