@@ -15,4 +15,4 @@ settings:
     global: false
   url.searchengines:
     global:
-      DEFAULT: https://kagi.com/?q={}
+      DEFAULT: https://kagi.com/search?q={}
