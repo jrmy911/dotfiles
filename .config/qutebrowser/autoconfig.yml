@@ -13,6 +13,12 @@ settings:
         ',m': spawn mpv {url}
   content.javascript.enabled:
     global: false
+  fonts.default_family:
+    global: Geist Mono
+  url.default_page:
+    global: https://kagi.com
   url.searchengines:
     global:
       DEFAULT: https://kagi.com/search?q={}
+  url.start_pages:
+    global: https://kagi.com
