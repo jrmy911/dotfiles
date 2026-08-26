@@ -14,5 +14,6 @@ end
 starship init fish | source
 zoxide init fish | source
 
-# Generated for envman. Do not edit.
 test -s ~/.config/envman/load.fish; and source ~/.config/envman/load.fish
+
+eval "$(keychain add id_ecdsa --eval)"
