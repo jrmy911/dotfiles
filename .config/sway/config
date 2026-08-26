@@ -9,14 +9,17 @@ set $term ghostty
 set $menu rofi -show drun
 set $browser zen-browser
 set $music subtui
+set $mail aerc
 
 #output * bg ~/Downloads/wallhaven-rdj5zm.jpg fill
 
 output eDP-1 resolution 1920x1080@60.002Hz position 0 0
 output eDP-1 scale 1.25
-output DP-2 resolution 3840x2160@120.000Hz position 1920 0
-output DP-2 scale 1.5
-focus output DP-2
+#output DP-2 resolution 3840x2160@120.000Hz position 1920 0
+#output DP-2 scale 1.5
+output HDMI-A-1 resolution 3840x2160@60.000Hz position 1920 0
+output HDMI-A-1 scale 1.5
+#focus output DP-2
 
 exec swayidle -w \
   timeout 300 'swaylock -f -c 000000' \
@@ -35,8 +38,8 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 bindsym $mod+e exec $term -e yazi
 bindsym $mod+b exec $browser
-bindsym $mod+m exec $term -e aerc
-bindsym $mod+n exec $term -e subtui
+bindsym $mod+m exec $term -e $mail
+bindsym $mod+n exec $term -e $music
 
 floating_modifier $mod normal
 
@@ -116,17 +119,12 @@ bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@
 bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+ && notify-send -e -h string:x-canonical-private-synchronous:volume -h int:value:"$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2*100}')" -a "System" "Volume" -t 2000
 bindsym Print exec grim
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
 bar {
 	swaybar_command waybar
 }
 
 include /etc/sway/config.d/*
 
-# --- Color Palette ---
 set $primary_bg       #101318
 set $secondary_bg     #161B22
 set $tertiary_bg      #222733
@@ -142,7 +140,6 @@ set $error            #CB886D
 set $info             #8999AA
 set $selection_bg     #2B3040
 
-# --- Sway Window Decorations ---
 # class                 border           bground          text             indicator        child_border
 client.focused          $tertiary_accent $tertiary_bg     $text_primary    $tertiary_accent $tertiary_accent
 client.focused_inactive $text_dim        $secondary_bg    $text_secondary  $text_dim        $text_dim
