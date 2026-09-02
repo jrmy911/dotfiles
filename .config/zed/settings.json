@@ -1,4 +1,15 @@
 {
+    "ui_font_weight": 500.0,
+    "tasks": {
+        "enabled": true
+    },
+    "lsp_document_colors": "inlay",
+    "buffer_line_height": "comfortable",
+    "buffer_font_weight": 400.0,
+    "show_edit_predictions": false,
+    "notification_panel": {
+        "button": false
+    },
     "collaboration_panel": {
         "button": false,
         "dock": "right"
@@ -17,13 +28,13 @@
         "enable_preview_from_project_panel": false
     },
     "autosave": "off",
-    "ui_font_family": "JetBrainsMono Nerd Font",
+    "ui_font_family": "Geist Mono",
     "use_system_window_tabs": false,
     "window_decorations": "client",
     "bottom_dock_layout": "contained",
     "tab_bar": {
-        "show_nav_history_buttons": true,
-        "show_tab_bar_buttons": true,
+        "show_nav_history_buttons": false,
+        "show_tab_bar_buttons": false,
         "show": false
     },
     "tabs": {
@@ -45,15 +56,18 @@
         "active_language_button": true
     },
     "project_panel": {
-        "scrollbar": {
-            "horizontal_scroll": false
-        },
         "dock": "left",
+        "auto_open": {
+            "on_create": true
+        },
         "button": false
     },
     "tab_size": 4,
     "toolbar": {
-        "agent_review": true
+        "selections_menu": true,
+        "quick_actions": false,
+        "breadcrumbs": true,
+        "agent_review": false
     },
     "scrollbar": {
         "axes": {
@@ -63,27 +77,13 @@
         "diagnostics": "warning",
         "show": "never"
     },
-    "buffer_font_family": "JetBrainsMono Nerd Font",
-    "ssh_connections": [
-        {
-            "host": "192.168.1.250",
-            "username": "jrmy911",
-            "args": [],
-            "projects": [
-                {
-                    "paths": [
-                        "/home/jrmy911/dev/gaze"
-                    ]
-                }
-            ],
-            "nickname": "arch-dev"
-        }
-    ],
+    "buffer_font_family": "Geist Mono",
+    "ssh_connections": [],
     "git_panel": {
         "button": false,
         "tree_view": true,
         "status_style": "icon",
-        "dock": "left"
+        "dock": "right"
     },
     "calls": {
         "mute_on_join": true
@@ -97,21 +97,26 @@
         "show_project_items": true,
         "show_branch_name": true
     },
-    "auto_update": false,
+    "auto_update": true,
     "terminal": {
-        "font_size": 20.0,
+        "font_family": "Geist Mono",
+        "font_size": 16.0,
         "shell": "system",
         "button": false,
-        "dock": "right"
+        "dock": "bottom"
     },
     "vim": {
         "cursor_shape": {
+            "insert": "bar",
             "replace": "bar"
         },
         "gdefault": true,
         "toggle_relative_line_numbers": true
     },
     "languages": {
+        "Terraform": {
+            "show_edit_predictions": true
+        },
         "Ansible": {
             "tab_size": 2
         },
@@ -123,7 +128,7 @@
     "agent": {
         "dock": "right",
         "button": false,
-        "default_profile": "write",
+        "default_profile": "ask",
         "default_model": {
             "enable_thinking": true,
             "provider": "openrouter",
@@ -132,17 +137,16 @@
         "model_parameters": []
     },
     "icon_theme": "Material Icon Theme",
-    "wsl_connections": [],
     "vim_mode": true,
     "telemetry": {
         "diagnostics": false,
         "metrics": false
     },
-    "ui_font_size": 16,
-    "buffer_font_size": 18.0,
+    "ui_font_size": 17.0,
+    "buffer_font_size": 17.0,
     "theme": {
         "mode": "system",
-        "light": "One Light",
+        "light": "Rosé Pine Dawn",
         "dark": "Bauhaus Dark"
     },
     "file_types": {

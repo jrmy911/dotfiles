@@ -10,109 +10,102 @@
         "context": "Workspace",
         "bindings": {
             // "shift shift": "file_finder::Toggle"
-        },
+        }
     },
     {
         "context": "Editor && vim_mode == insert",
         "bindings": {
             // "j k": "vim::NormalBefore"
-        },
+        }
     },
     {
         "context": "Workspace",
         "bindings": {
-            "space d": "diagnostics::Deploy",
-        },
+            "ctrl-shift-m": null
+        }
     },
     {
-        "context": "Workspace",
         "bindings": {
-            "ctrl-shift-m": null,
-        },
-    },
-    {
-        "context": "Workspace && Editor",
-        "bindings": {
-            "space a g": "agent::Toggle",
-        },
+            "g a g": "agent::Toggle"
+        }
     },
     {
         "context": "((vim_mode == helix_normal || vim_mode == helix_select) && !menu)",
         "bindings": {
-            "shift-\\": "pane::SplitRight",
-        },
+            "shift-\\": "pane::SplitRight"
+        }
     },
     {
         "context": "((VimControl && !menu) || (!Editor && !Terminal))",
         "bindings": {
-            "ctrl-space |": "pane::SplitVertical",
-        },
+            "ctrl-space |": "pane::SplitVertical"
+        }
     },
     {
         "context": "((VimControl && !menu) || (!Editor && !Terminal))",
         "bindings": {
             "ctrl-space -": "pane::SplitHorizontal",
-        },
+            "ctrl-space h": "workspace::ActivatePaneLeft",
+            "ctrl-space j": "workspace::ActivatePaneDown",
+            "ctrl-space k": "workspace::ActivatePaneUp",
+            "ctrl-space l": "workspace::ActivatePaneRight"
+        }
     },
     {
         "context": "Workspace",
         "bindings": {
-            "space alt-b": "workspace::ToggleRightDock",
-        },
+            "space alt-b": "workspace::ToggleRightDock"
+        }
     },
     {
-        "context": "Editor",
         "bindings": {
-            "space d": "editor::ToggleDiagnostics",
-        },
+            "g d": "editor::GoToDefinition"
+        }
     },
     {
         "context": "(ProjectPanel && not_editing)",
         "bindings": {
-            "space ]": "project_panel::SelectNextDiagnostic",
-        },
+            "space ]": "project_panel::SelectNextDiagnostic"
+        }
     },
     {
         "context": "((vim_mode == helix_normal || vim_mode == helix_select) && !menu)",
         "bindings": {
-            "space c a": "editor::ToggleCodeActions",
-        },
+            "g c a": "editor::ToggleCodeActions"
+        }
     },
     {
         "context": "((vim_mode == helix_normal || vim_mode == helix_select) && !menu)",
         "bindings": {
-            "space a": null,
-        },
+            "space a": null
+        }
     },
     {
-        "context": "Editor",
         "bindings": {
-            "space g r": "git::RenameBranch",
-        },
+            "g g r": "git::RenameBranch"
+        }
     },
     {
         "context": "Workspace",
         "bindings": {
-            "space g b": "git::Branch",
-        },
+            "g g b": "git::Branch"
+        }
+    },
+    {
+        "bindings": {
+            "g g d": "git::BranchDiff"
+        }
+    },
+    {
+        "bindings": {
+            "g a a": "git::Add"
+        }
     },
     {
         "context": "GitPanel",
         "bindings": {
-            "space g d": "git::BranchDiff",
-        },
-    },
-    {
-        "context": "GitPanel",
-        "bindings": {
-            "space a a": "git::Add",
-        },
-    },
-    {
-        "context": "GitPanel",
-        "bindings": {
-            "space g c": "git::Commit",
-        },
+            "g g c": "git::Commit"
+        }
     },
     {
         "bindings": {
@@ -120,266 +113,288 @@
                 "projects::OpenRemote",
                 {
                     "from_existing_connection": false,
-                    "create_new_window": false,
-                },
-            ],
-        },
+                    "create_new_window": false
+                }
+            ]
+        }
     },
     {
         "context": "Workspace",
         "bindings": {
-            "ctrl-alt-shift-o": null,
-        },
+            "ctrl-alt-shift-o": null
+        }
     },
     {
         "context": "(Editor && mode == full)",
         "bindings": {
-            "space f s": "outline::Toggle",
-        },
+            "g f s": "outline::Toggle"
+        }
     },
     {
         "context": "(Editor && mode == full)",
         "bindings": {
-            "ctrl-shift-o": null,
-        },
+            "ctrl-shift-o": null
+        }
     },
     {
         "context": "((vim_mode == helix_normal || vim_mode == helix_select) && !menu)",
         "bindings": {
-            "space f s": "outline::Toggle",
-        },
+            "g f s": "outline::Toggle"
+        }
     },
     {
-        "context": "Editor && Workspace",
         "bindings": {
-            "space l g": "git_panel::Toggle",
-        },
+            "space l g": "git_panel::Toggle"
+        }
+    },
+    {
+        "context": "Terminal",
+        "bindings": {
+            "space q": "pane::CloseActiveItem"
+        }
+    },
+    {
+        "context": "VimControl && !menu",
+        "bindings": {
+            "space q": "pane::CloseActiveItem"
+        }
     },
     {
         "context": "((os != macos && Editor) && (edit_prediction && (showing_completions || in_leading_whitespace)))",
         "bindings": {
-            "space l": "editor::AcceptEditPrediction",
-        },
+            "space l": "editor::AcceptEditPrediction"
+        }
     },
     {
         "bindings": {
-            "space p v": "project_panel::Toggle",
-        },
+            "space p v": "project_panel::Toggle"
+        }
     },
     {
         "context": "GitPanel",
         "bindings": {
-            "space g p": "git::Push",
-        },
+            "g g p": "git::Push"
+        }
     },
     {
         "context": "GitPanel",
-        "unbind": {
-            "ctrl-g up": "git::Push",
-        },
+        "bindings": {
+            "ctrl-g up": null
+        }
     },
     {
         "context": "Pane",
-        "unbind": {
-            "ctrl-alt-shift-h": "search::ToggleReplace",
-        },
+        "bindings": {
+            "ctrl-alt-shift-h": null
+        }
     },
     {
         "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
-        "unbind": {
-            "space s": "outline::Toggle",
-        },
+        "bindings": {
+            "space s": null
+        }
     },
     {
         "context": "Workspace",
-        "unbind": {
-            "ctrl-~": "workspace::NewTerminal",
-        },
+        "bindings": {
+            "ctrl-~": null
+        }
+    },
+    {
+        "bindings": {
+            "space enter": "workspace::NewCenterTerminal"
+        }
     },
     {
         "context": "Editor && extension == md",
         "bindings": {
-            "space m p": "markdown::OpenPreview",
-        },
+            "g m p": "markdown::OpenPreview"
+        }
     },
     {
         "context": "Editor && extension == md",
-        "unbind": {
-            "ctrl-shift-v": "markdown::OpenPreview",
-        },
+        "bindings": {
+            "ctrl-shift-v": null
+        }
     },
     {
         "context": "GitPanel",
         "bindings": {
-            "space g l": "git::Pull",
-        },
+            "g g l": "git::Pull"
+        }
     },
     {
         "context": "GitPanel",
-        "unbind": {
-            "ctrl-g down": "git::Pull",
-        },
+        "bindings": {
+            "ctrl-g down": null
+        }
     },
     {
         "context": "BufferSearchBar",
         "bindings": {
-            "space s s": "search::ToggleReplace",
-        },
+            "space s s": "search::ToggleReplace"
+        }
     },
     {
         "context": "BufferSearchBar",
-        "unbind": {
-            "ctrl-h": "search::ToggleReplace",
-        },
+        "bindings": {
+            "ctrl-h": null
+        }
     },
     {
         "context": "BufferSearchBar && in_replace > Editor",
         "bindings": {
-            "enter": "search::ReplaceAll",
-        },
+            "enter": "search::ReplaceAll"
+        }
     },
     {
         "context": "BufferSearchBar && in_replace > Editor",
-        "unbind": {
-            "ctrl-enter": "search::ReplaceAll",
-        },
+        "bindings": {
+            "ctrl-enter": null
+        }
     },
     {
         "context": "!Editor && !Terminal",
         "bindings": {
-            "space j": "workspace::ActivatePaneDown",
-        },
-    },
-    {
-        "context": "!Editor && !Terminal",
-        "unbind": {
-            "space w j": "workspace::ActivatePaneDown",
-        },
+            "space j": "workspace::ActivatePaneDown"
+        }
     },
     {
         "context": "!Editor && !Terminal",
         "bindings": {
-            "space alt-h": "workspace::ActivatePaneLeft",
-        },
-    },
-    {
-        "context": "!Editor && !Terminal",
-        "unbind": {
-            "space w h": "workspace::ActivatePaneLeft",
-        },
+            "space w j": null
+        }
     },
     {
         "context": "!Editor && !Terminal",
         "bindings": {
-            "space alt-l": "workspace::ActivatePaneRight",
-        },
-    },
-    {
-        "context": "!Editor && !Terminal",
-        "unbind": {
-            "space w l": "workspace::ActivatePaneRight",
-        },
+            "space alt-h": "workspace::ActivatePaneLeft"
+        }
     },
     {
         "context": "!Editor && !Terminal",
         "bindings": {
-            "space alt-k": "workspace::ActivatePaneUp",
-        },
+            "space w h": null
+        }
     },
     {
         "context": "!Editor && !Terminal",
-        "unbind": {
-            "space w k": "workspace::ActivatePaneUp",
-        },
+        "bindings": {
+            "space alt-l": "workspace::ActivatePaneRight"
+        }
+    },
+    {
+        "context": "!Editor && !Terminal",
+        "bindings": {
+            "space w l": null
+        }
+    },
+    {
+        "context": "!Editor && !Terminal",
+        "bindings": {
+            "space alt-k": "workspace::ActivatePaneUp"
+        }
+    },
+    {
+        "context": "!Editor && !Terminal",
+        "bindings": {
+            "space w k": null
+        }
     },
     {
         "context": "Editor && edit_prediction",
-        "unbind": {
-            "alt-l": "editor::AcceptEditPrediction",
-        },
+        "bindings": {
+            "alt-l": null
+        }
     },
     {
         "context": "Editor && edit_prediction",
-        "unbind": {
-            "alt-k": "editor::AcceptNextWordEditPrediction",
-        },
+        "bindings": {
+            "alt-k": null
+        }
     },
     {
         "context": "Editor && edit_prediction",
-        "unbind": {
-            "alt-j": "editor::AcceptNextLineEditPrediction",
-        },
+        "bindings": {
+            "alt-j": null
+        }
     },
     {
         "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
         "bindings": {
-            "space alt-h": "workspace::ActivatePaneLeft",
-        },
-    },
-    {
-        "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
-        "unbind": {
-            "space w h": "workspace::ActivatePaneLeft",
-        },
+            "space alt-h": "workspace::ActivatePaneLeft"
+        }
     },
     {
         "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
         "bindings": {
-            "space alt-l": "workspace::ActivatePaneRight",
-        },
-    },
-    {
-        "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
-        "unbind": {
-            "space w l": "workspace::ActivatePaneRight",
-        },
+            "space w h": null
+        }
     },
     {
         "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
         "bindings": {
-            "space j": "workspace::ActivatePaneDown",
-        },
-    },
-    {
-        "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
-        "unbind": {
-            "space w j": "workspace::ActivatePaneDown",
-        },
+            "space alt-l": "workspace::ActivatePaneRight"
+        }
     },
     {
         "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
         "bindings": {
-            "space alt-k": "workspace::ActivatePaneUp",
-        },
+            "space w l": null
+        }
     },
     {
         "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
-        "unbind": {
-            "space w k": "workspace::ActivatePaneUp",
-        },
+        "bindings": {
+            "space j": "workspace::ActivatePaneDown"
+        }
+    },
+    {
+        "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+        "bindings": {
+            "space w j": null
+        }
+    },
+    {
+        "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+        "bindings": {
+            "space alt-k": "workspace::ActivatePaneUp"
+        }
+    },
+    {
+        "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+        "bindings": {
+            "space w k": null
+        }
     },
     {
         "context": "VimControl && !menu",
         "bindings": {
+            "g c a": "editor::ToggleCodeActions"
+        }
+    },
+    {
+        "context": "VimControl && !menu",
+        "bindings": {
+            "g .": null
+        }
+    },
+    {
+        "context": "VimControl && !menu",
+        "bindings": {
+            "ctrl-p": "file_finder::Toggle",
+            "space p v": "project_panel::Toggle",
+            "space f g": "workspace::NewSearch",
+            "space f s": "outline::Toggle",
+            "space d": "editor::ToggleDiagnostics",
+            "space c m": "command_palette::Toggle",
+            "space f f": "editor::Format",
+            "shift-k": "editor::Hover",
+            "g d": "editor::GoToDefinition",
+            "g r": "editor::FindAllReferences",
             "space c a": "editor::ToggleCodeActions",
-        },
-    },
-    {
-        "context": "VimControl && !menu",
-        "unbind": {
-            "g .": "editor::ToggleCodeActions",
-        },
-    },
-    {
-        "context": "Workspace",
-        "bindings": {
-            "space enter": "terminal_panel::Toggle",
-        },
-    },
-    {
-        "context": "Workspace",
-        "unbind": {
-            "ctrl-`": "terminal_panel::Toggle",
-        },
-    },
+            "[ d": "diagnostics::Deploy",
+            "] d": "editor::GoToDiagnostic"
+        }
+    }
 ]
