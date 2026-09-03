@@ -173,7 +173,8 @@
     {
         "context": "GitPanel",
         "bindings": {
-            "space g p": "git::Push"
+            "space g p": "git::Push",
+            "space g o": "git::CreatePullRequest"
         }
     },
     {
