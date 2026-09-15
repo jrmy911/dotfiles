@@ -9,17 +9,17 @@ vim.g.mapleader = " "
 vim.filetype.add({
   extension = {
     tf = "terraform",
-    tfvars = "terraform-vars",
+    tfvars = "terraform",
     hcl = "terraform",
   },
   pattern = {
-    [".*%.auto%.tfvars"] = "terraform-vars",
-    [".*%.tfvars"] = "terraform-vars",
+    [".*%.auto%.tfvars"] = "terraform",
+    [".*%.tfvars"] = "terraform",
     [".*%.tftest%.hcl"] = "terraform",
   },
 })
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+-- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.opt.nu = true
 
