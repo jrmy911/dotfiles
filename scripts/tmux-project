@@ -81,8 +81,15 @@ if ! tmux has-session -t "=$session" 2>/dev/null; then
 
   tmux new-window \
     -t "=$session:" \
+    -n github \
+    -c "$repo"
+  tmux send-keys -t "=$session:github" 'gh dash' Enter
+
+  tmux new-window \
+    -t "=$session:" \
     -n shell \
     -c "$repo"
+    
 
   tmux select-window -t "=$session:editor"
 fi
