@@ -11,6 +11,12 @@ if status is-interactive
     # Pick a recent GitHub Actions run or open PR from the current repository,
     # then inspect it with gh enhance.
     bind \cg github_picker
+
+    # Replace Fish's clear-screen binding with an Azure tenant login picker.
+    bind \cl azl
+
+    # Search 1Password items and copy the selected password to the clipboard.
+    bind \co opfzf
 end
 
 fish_add_path $HOME/.cargo/bin
