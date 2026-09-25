@@ -151,8 +151,6 @@ export default function (pi: ExtensionAPI) {
 
   pi.on("session_start", (_event, ctx) => {
     currentModelId = ctx.model?.id ?? "no model selected";
-    if (!ctx.hasUI) return;
-    installHeader(ctx);
   });
 
   pi.on("model_select", (event) => {
