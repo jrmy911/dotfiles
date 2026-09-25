@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+#
+# Defaults: ~/customers, ~/internal, and ~/personal.
+
+require_command() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    printf 'required command not found: %s\n' "$1" >&2
+    exit 1
+  fi
+}
+
+for command in tmux fzf nvim lazygit; do
+  require_command "$command"
+done
+
+roots=()
+
+if (( $# > 0 )); then
+  roots=("$@")
+elif [[ -n "${TMUX_PROJECT_ROOTS:-}" ]]; then
+  IFS=: read -r -a roots <<< "$TMUX_PROJECT_ROOTS"
+else
+  roots=(
+    "$HOME/customers"
+    "$HOME/internal"
+    "$HOME/personal"
+  )
+fi
+
+existing_roots=()
+for root in "${roots[@]}"; do
+  [[ -d "$root" ]] && existing_roots+=("$root")
+done
+
+if (( ${#existing_roots[@]} == 0 )); then
+  printf 'none of the configured repository roots exist\n' >&2
+  exit 1
+fi
+
+repo=$(
+  find "${existing_roots[@]}" \
+    -mindepth 2 \
+    -maxdepth 5 \
+    -name .git \
+    \( -type d -o -type f \) \
+    -printf '%h\n' 2>/dev/null \
+  | sort -u \
+  | fzf \
+      --prompt='Repository: ' \
+      --height=40% \
+      --layout=reverse \
+      --border \
+      --info=inline \
+      --preview='git -C {} status --short --branch 2>/dev/null' \
+      --preview-window='right,55%,border-left'
+) || exit 0
+
+[[ -n "$repo" ]] || exit 0
+
+parent=$(basename "$(dirname "$repo")")
+project=$(basename "$repo")
+path_hash=$(printf '%s' "$repo" | sha256sum | cut -c1-8)
+session=$(printf '%s-%s-%s' "$parent" "$project" "$path_hash" \
+  | tr -cs '[:alnum:]_-' '-')
+session=${session%-}
+
+if ! tmux has-session -t "=$session" 2>/dev/null; then
+  tmux new-session -d \
+    -s "$session" \
+    -n editor \
+    -c "$repo"
+  tmux send-keys -t "=$session:editor" 'nvim .' Enter
+
+  tmux new-window \
+    -t "=$session:" \
+    -n git \
+    -c "$repo"
+  tmux send-keys -t "=$session:git" 'lazygit' Enter
+
+  tmux new-window \
+    -t "=$session:" \
+    -n shell \
+    -c "$repo"
+
+  tmux select-window -t "=$session:editor"
+fi
+
+if [[ -n "${TMUX:-}" ]]; then
+  tmux switch-client -t "=$session"
+else
+  exec tmux attach-session -t "=$session"
+fi
