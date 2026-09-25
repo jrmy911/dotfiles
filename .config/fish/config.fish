@@ -61,7 +61,23 @@ if status is-interactive
     bind \cl azure_login_picker_popup
 
     # Search 1Password items and copy the selected password to the clipboard.
-    bind \co opfzf
+    function onepassword_picker_popup
+        if set -q TMUX
+            command tmux display-popup \
+                -E \
+                -e PICKER_FZF_HEIGHT=100% \
+                -w 80% \
+                -h 70% \
+                -d '#{pane_current_path}' \
+                -T ' 1Password ' \
+                'fish -c opfzf'
+        else
+            set -lx PICKER_FZF_HEIGHT 65%
+            opfzf
+        end
+        commandline -f repaint
+    end
+    bind \co onepassword_picker_popup
 end
 
 fish_add_path $HOME/.cargo/bin

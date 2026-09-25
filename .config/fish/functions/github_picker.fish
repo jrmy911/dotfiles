@@ -7,19 +7,31 @@ function github_picker --description 'Pick a GitHub Actions run or PR and open i
     set -l entries (mktemp)
     or return 1
 
-    begin
-        command gh run list --limit 10 \
-            --json conclusion,displayTitle,status,url \
-            --jq '.[] | ["RUN", (if .conclusion == "" then .status else .conclusion end), .displayTitle, .url] | @tsv'
+    set -l runs (mktemp)
+    set -l open_prs (mktemp)
+    set -l closed_prs (mktemp)
 
-        command gh pr list --state open --limit 50 \
-            --json number,state,title,url \
-            --jq '.[] | ["PR", ("#" + (.number | tostring) + " · " + .state), .title, .url] | @tsv'
+    command gh run list --limit 10 \
+        --json conclusion,displayTitle,status,url \
+        --jq '.[] | ["RUN", (if .conclusion == "" then .status else .conclusion end), .displayTitle, .url] | @tsv' \
+        >$runs &
+    set -l runs_pid $last_pid
 
-        command gh pr list --state closed --limit 5 \
-            --json number,state,title,url \
-            --jq '.[] | ["PR", ("#" + (.number | tostring) + " · " + .state), .title, .url] | @tsv'
-    end >$entries
+    command gh pr list --state open --limit 50 \
+        --json number,state,title,url \
+        --jq '.[] | ["PR", ("#" + (.number | tostring) + " · " + .state), .title, .url] | @tsv' \
+        >$open_prs &
+    set -l open_pid $last_pid
+
+    command gh pr list --state closed --limit 5 \
+        --json number,state,title,url \
+        --jq '.[] | ["PR", ("#" + (.number | tostring) + " · " + .state), .title, .url] | @tsv' \
+        >$closed_prs &
+    set -l closed_pid $last_pid
+
+    wait $runs_pid $open_pid $closed_pid
+    command cat $runs $open_prs $closed_prs >$entries
+    rm -f $runs $open_prs $closed_prs
 
     if not test -s $entries
         rm -f $entries
@@ -46,7 +58,7 @@ function github_picker --description 'Pick a GitHub Actions run or PR and open i
         --prompt='GitHub > ' \
         --header='Enter: View GitHub Actions  •  Ctrl+O: View PR  •  Esc: cancel' \
         --expect=ctrl-o \
-        --preview='if test {1} = PR; GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh pr view {4} 2>&1; end' \
+        --preview='if test {1} = PR; GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh pr view {4} 2>&1; else if test {1} = RUN; set run_id (string replace -r ".*/" "" -- {4}); GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh run view $run_id 2>&1; end' \
         --preview-window='right,60%,border-left,wrap' \
         <$entries)
     set -l fzf_status $status

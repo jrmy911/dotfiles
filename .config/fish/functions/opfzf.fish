@@ -39,7 +39,7 @@ function opfzf --description 'Choose a 1Password item and copy its password'
         command cat $op_error >&2
         rm -f $entries $items_json $op_error
         echo 'Unable to sign in or list 1Password items' >&2
-        commandline -f repaint
+        status is-interactive; and commandline -f repaint
         return 1
     end
 
@@ -59,19 +59,29 @@ function opfzf --description 'Choose a 1Password item and copy its password'
     if test $parse_status -ne 0
         rm -f $entries
         echo 'Unable to parse the 1Password item list' >&2
-        commandline -f repaint
+        status is-interactive; and commandline -f repaint
         return 1
     end
 
     if not test -s $entries
         rm -f $entries
         echo 'No accessible items found. ❌' >&2
-        commandline -f repaint
+        status is-interactive; and commandline -f repaint
         return 1
     end
 
+    set -l fzf_height 65%
+    if set -q PICKER_FZF_HEIGHT
+        set fzf_height $PICKER_FZF_HEIGHT
+    end
+    set -l fzf_margin 0
+    if set -q PICKER_FZF_MARGIN
+        set fzf_margin $PICKER_FZF_MARGIN
+    end
+
     set -l selected (command fzf \
-        --height=65% \
+        --height=$fzf_height \
+        --margin=$fzf_margin \
         --layout=reverse \
         --border \
         --delimiter='\t' \
@@ -83,7 +93,7 @@ function opfzf --description 'Choose a 1Password item and copy its password'
     rm -f $entries
 
     if test $fzf_status -ne 0; or test -z "$selected"
-        commandline -f repaint
+        status is-interactive; and commandline -f repaint
         return
     end
 
@@ -93,7 +103,7 @@ function opfzf --description 'Choose a 1Password item and copy its password'
 
     if command -q wl-copy; and set -q WAYLAND_DISPLAY
         command op item get $item_id --fields label=password --reveal \
-            | command wl-copy
+            | command wl-copy --paste-once
         set copy_status $pipestatus[1]
     else if command -q xclip; and set -q DISPLAY
         command op item get $item_id --fields label=password --reveal \
@@ -109,16 +119,20 @@ function opfzf --description 'Choose a 1Password item and copy its password'
         set copy_status $pipestatus[1]
     else
         echo 'No supported clipboard command found' >&2
-        commandline -f repaint
+        status is-interactive; and commandline -f repaint
         return 1
     end
 
     if test $copy_status -eq 0
-        echo 'Password copied to clipboard. ✔ ' \n
+        if command -q wl-copy; and set -q WAYLAND_DISPLAY
+            echo 'Password copied; it will clear after one paste. ✔' \n
+        else
+            echo 'Password copied to clipboard. ✔' \n
+        end
     else
         echo 'The selected item has no accessible password field. 🙈' >&2 \n
     end
 
-    commandline -f repaint
+    status is-interactive; and commandline -f repaint
     return $copy_status
 end

@@ -29,6 +29,11 @@ function __azl_cache_current_tenant --argument-names tenant_cache
     command mv $updated_cache $tenant_cache
 end
 
+function __azl_refresh_in_background --argument-names tenant_cache
+    set -l refresh_command 'source ~/.config/fish/functions/azl.fish; __azl_cache_current_tenant '(string escape -- $tenant_cache)
+    command setsid -f fish -c $refresh_command >/dev/null 2>&1
+end
+
 function azl --description 'Choose a cached Azure tenant and sign in'
     if not command -q az
         echo 'azl: Azure CLI is not installed' >&2
@@ -54,9 +59,9 @@ function azl --description 'Choose a cached Azure tenant and sign in'
     end
     set -l tenant_cache "$cache_root/azl/tenants.tsv"
 
-    # Refresh the currently authenticated tenant even when the login happened
-    # outside this picker.
-    __azl_cache_current_tenant $tenant_cache
+    # Refresh without delaying the picker. The atomic cache update becomes
+    # visible the next time the picker opens.
+    __azl_refresh_in_background $tenant_cache
 
     command az account list --all --output json 2>/dev/null \
         | command jq -r '
@@ -125,7 +130,7 @@ function azl --description 'Choose a cached Azure tenant and sign in'
     set -l login_status $status
 
     if test $login_status -eq 0
-        __azl_cache_current_tenant $tenant_cache
+        __azl_refresh_in_background $tenant_cache
     end
 
     status is-interactive; and commandline -f repaint
