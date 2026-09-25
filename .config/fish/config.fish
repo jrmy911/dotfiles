@@ -1,5 +1,10 @@
 if status is-interactive
-# Commands to run in interactive sessions can go here
+    function tmux_project_picker
+        command $HOME/.local/bin/tmux-project
+        commandline -f repaint
+    end
+
+    bind \cp tmux_project_picker
 end
 
 fish_add_path $HOME/.cargo/bin
