@@ -91,8 +91,18 @@ function azl --description 'Choose a cached Azure tenant and sign in'
         return 1
     end
 
+    set -l fzf_height 60%
+    if set -q PICKER_FZF_HEIGHT
+        set fzf_height $PICKER_FZF_HEIGHT
+    end
+    set -l fzf_margin 0
+    if set -q PICKER_FZF_MARGIN
+        set fzf_margin $PICKER_FZF_MARGIN
+    end
+
     set -l selected (command fzf \
-        --height=60% \
+        --height=$fzf_height \
+        --margin=$fzf_margin \
         --layout=reverse \
         --border \
         --delimiter='\t' \
@@ -104,7 +114,7 @@ function azl --description 'Choose a cached Azure tenant and sign in'
     rm -f $entries
 
     if test $fzf_status -ne 0; or test -z "$selected"
-        commandline -f repaint
+        status is-interactive; and commandline -f repaint
         return
     end
 
@@ -118,6 +128,6 @@ function azl --description 'Choose a cached Azure tenant and sign in'
         __azl_cache_current_tenant $tenant_cache
     end
 
-    commandline -f repaint
+    status is-interactive; and commandline -f repaint
     return $login_status
 end

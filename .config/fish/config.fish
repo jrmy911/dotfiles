@@ -2,7 +2,20 @@ if status is-interactive
     # Open the project picker from the bottom of the current terminal. The
     # selected project is then opened in (or switched to) its tmux session.
     function tmux_project_picker
-        command $HOME/.local/bin/tmux-project
+        if set -q TMUX
+            command tmux display-popup \
+                -E \
+                -e TMUX_PROJECT_FZF_HEIGHT=100% \
+                -w 85% \
+                -h 75% \
+                -d '#{pane_current_path}' \
+                -T ' Projects ' \
+                "$HOME/.local/bin/tmux-project"
+        else
+            command env \
+                TMUX_PROJECT_FZF_HEIGHT=75% \
+                $HOME/.local/bin/tmux-project
+        end
         commandline -f repaint
     end
 
@@ -10,10 +23,42 @@ if status is-interactive
 
     # Pick a recent GitHub Actions run or open PR from the current repository,
     # then inspect it with gh enhance.
-    bind \cg github_picker
+    function github_picker_popup
+        if set -q TMUX
+            command tmux display-popup \
+                -E \
+                -e PICKER_FZF_HEIGHT=100% \
+                -w 90% \
+                -h 80% \
+                -d '#{pane_current_path}' \
+                -T ' GitHub ' \
+                'fish -c github_picker'
+        else
+            set -lx PICKER_FZF_HEIGHT 80%
+            github_picker
+        end
+        commandline -f repaint
+    end
+    bind \cg github_picker_popup
 
     # Replace Fish's clear-screen binding with an Azure tenant login picker.
-    bind \cl azl
+    function azure_login_picker_popup
+        if set -q TMUX
+            command tmux display-popup \
+                -E \
+                -e PICKER_FZF_HEIGHT=100% \
+                -w 80% \
+                -h 65% \
+                -d '#{pane_current_path}' \
+                -T ' Azure tenants ' \
+                'fish -c azl'
+        else
+            set -lx PICKER_FZF_HEIGHT 60%
+            azl
+        end
+        commandline -f repaint
+    end
+    bind \cl azure_login_picker_popup
 
     # Search 1Password items and copy the selected password to the clipboard.
     bind \co opfzf

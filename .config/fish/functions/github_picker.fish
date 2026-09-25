@@ -27,8 +27,18 @@ function github_picker --description 'Pick a GitHub Actions run or PR and open i
         return 1
     end
 
+    set -l fzf_height 70%
+    if set -q PICKER_FZF_HEIGHT
+        set fzf_height $PICKER_FZF_HEIGHT
+    end
+    set -l fzf_margin 0
+    if set -q PICKER_FZF_MARGIN
+        set fzf_margin $PICKER_FZF_MARGIN
+    end
+
     set -l picker_output (command fzf \
-        --height=70% \
+        --height=$fzf_height \
+        --margin=$fzf_margin \
         --layout=reverse \
         --border \
         --delimiter='\t' \
@@ -43,7 +53,7 @@ function github_picker --description 'Pick a GitHub Actions run or PR and open i
     rm -f $entries
 
     if test $fzf_status -ne 0; or test (count $picker_output) -lt 2
-        commandline -f repaint
+        status is-interactive; and commandline -f repaint
         return
     end
 
@@ -56,14 +66,14 @@ function github_picker --description 'Pick a GitHub Actions run or PR and open i
     if test "$pressed_key" = ctrl-o
         if test "$item_type" != PR
             echo 'Ctrl+O is only available for pull requests' >&2
-            commandline -f repaint
+            status is-interactive; and commandline -f repaint
             return 1
         end
 
         set -l url_parts (string match -r '^https://[^/]+/([^/]+)/([^/]+)/pull/([0-9]+)' -- $url)
         if test (count $url_parts) -ne 4
             echo 'could not parse pull request URL' >&2
-            commandline -f repaint
+            status is-interactive; and commandline -f repaint
             return 1
         end
 
@@ -101,5 +111,5 @@ function github_picker --description 'Pick a GitHub Actions run or PR and open i
         command gh enhance $url
     end
 
-    commandline -f repaint
+    status is-interactive; and commandline -f repaint
 end
