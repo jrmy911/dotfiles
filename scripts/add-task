@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+
+read -P "Task: " task
+
+if test -n "$task"
+    task add "$task"
+end
+
+exit

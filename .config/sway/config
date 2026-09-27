@@ -40,7 +40,7 @@ bindsym $mod+e exec $term --title=yazi -e yazi
 bindsym $mod+b exec $browser
 bindsym $mod+m exec $term --title=$mail -e $mail
 bindsym $mod+n exec $term -e $music
-bindsym $mod+Shift+Space exec env NO_FASTFETCH=1 $term --title=task 
+bindsym $mod+shift+space exec env NO_FASTFETCH=1 ghostty --title=task -e ~/.local/bin/add-task
 bindsym $mod+p exec $pw
 bindsym $mod+Shift+B exec $term --title=bluetui -e bluetui
 bindsym $mod+Shift+V exec $term --title=clipse -e clipse                               
