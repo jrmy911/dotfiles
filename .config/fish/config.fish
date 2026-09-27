@@ -1,6 +1,4 @@
 if status is-interactive
-    # Open the project picker from the bottom of the current terminal. The
-    # selected project is then opened in (or switched to) its tmux session.
     function tmux_project_picker
         if set -q TMUX
             command tmux display-popup \
@@ -21,8 +19,6 @@ if status is-interactive
 
     bind \cp tmux_project_picker
 
-    # Pick a recent GitHub Actions run or open PR from the current repository,
-    # then inspect it with gh enhance.
     function github_picker_popup
         if set -q TMUX
             command tmux display-popup \
@@ -41,7 +37,6 @@ if status is-interactive
     end
     bind \cg github_picker_popup
 
-    # Replace Fish's clear-screen binding with an Azure tenant login picker.
     function azure_login_picker_popup
         if set -q TMUX
             command tmux display-popup \
@@ -60,7 +55,6 @@ if status is-interactive
     end
     bind \cl azure_login_picker_popup
 
-    # Search 1Password items and copy the selected password to the clipboard.
     function onepassword_picker_popup
         if set -q TMUX
             command tmux display-popup \
@@ -85,10 +79,10 @@ fish_add_path $HOME/.local/bin
 fish_add_path $HOME/go/bin/
 
 function fish_greeting
-    echo Hello Jeremy!
-    echo The time is (set_color yellow)(date +%T)(set_color --reset). 
-
-    fastfetch
+    if status is-interactive
+      and not set -q NO_FASTFETCH
+      fastfetch
+    end
 end
 
 starship init fish | source
@@ -97,3 +91,4 @@ zoxide init fish | source
 test -s ~/.config/envman/load.fish; and source ~/.config/envman/load.fish
 
 eval "$(keychain add id_ecdsa --eval --quiet)"
+set SSH_AUTH_SOCK /home/jrmy/.keychain/g_fxSV4X.s
