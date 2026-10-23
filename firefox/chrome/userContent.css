@@ -1,0 +1,62 @@
+/* MiniSthetic new-tab layout with a scoped Bauhaus palette.
+ * Intentionally avoid upstream's global website rules and malformed CSS.
+ */
+@import './styles/_variables.css';
+@import './styles/_home.css';
+
+@-moz-document url-prefix("about:") {
+    :root {
+        color-scheme: dark;
+        --baseBG: #101318;
+        --moonlight-gray-1: #101318;
+        --moonlight-gray-2: #101318;
+        --moonlight-gray-3: #161B22;
+        --moonlight-gray-4: #222733;
+        --moonlight-gray-5: #2B3040;
+        --moonlight-gray-7: #98A0AE;
+        --moonlight-gray-9: #EAEFF5;
+        --moonlight-gray-10: #EAEFF5;
+        --moonlight-blue: #809D9E;
+        --in-content-page-background: #101318 !important;
+        --in-content-page-color: #EAEFF5 !important;
+        --in-content-box-background: #161B22 !important;
+        --in-content-primary-button-background: #809D9E !important;
+        --in-content-primary-button-text-color: #101318 !important;
+        --newtab-background-color: #101318 !important;
+        --newtab-background-color-secondary: #161B22 !important;
+        --newtab-text-primary-color: #EAEFF5 !important;
+        --newtab-text-secondary-color: #98A0AE !important;
+        --newtab-primary-action-background: #809D9E !important;
+        --firefoxcss-wallpaper-item-bg-color: #161B22;
+        --firefoxcss-wallpaper-item-hover-bg-color: #222733;
+    }
+}
+
+@-moz-document url("about:home"), url("about:newtab") {
+    /* Upstream does not ship the wallpaper its stylesheet references. */
+    body::before {
+        background: none !important;
+    }
+
+    .outer-wrapper .search-wrapper .search-handoff-button {
+        background-color: #161B22 !important;
+        border: 1px solid #2B3040 !important;
+        border-radius: 12px !important;
+        color: #EAEFF5 !important;
+        fill: #98A0AE !important;
+    }
+
+    .outer-wrapper .search-inner-wrapper:hover .search-handoff-button {
+        background-color: #222733 !important;
+        border-color: #809D9E !important;
+    }
+
+    #root .outer-wrapper .body-wrapper .tile {
+        background-color: #161B22 !important;
+        border-radius: 10px !important;
+    }
+
+    .outer-wrapper .body-wrapper .top-site-inner:hover {
+        background-color: #222733 !important;
+    }
+}

@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# Build pinned upstream sources into an isolated, user-owned prefix. No AUR/sudo.
+set -euo pipefail
+repo=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+src="$HOME/.local/src"
+prefix="$HOME/.local/opt/swayfx"
+sway_rev=4d341dbb39952ae95f1d8be161359e9316cd6ab8
+scene_rev=b96cb6c923b8bf721ad11fa2136fe070d9adc2dd
+meson_rev=70598bb7825f0f804fb31ec2795de5e79e7692a0
+ninja_rev=3441b633c2fe2c494e958780ba0f4227b1327634
+case "${1:-}" in
+  --dry-run)
+    printf 'Build SwayFX %s and SceneFX %s\n' "$sway_rev" "$scene_rev"
+    printf 'Bootstrap Meson %s and Ninja %s\n' "$meson_rev" "$ninja_rev"
+    printf 'Sources: %s\nInstall prefix: %s\nNo sudo or system Sway replacement.\n' "$src" "$prefix"
+    exit 0 ;;
+  --help|-h) echo "Usage: $0 [--dry-run] (run from stock Sway or a text TTY)"; exit 0 ;;
+  '') ;;
+  *) echo "Unknown option: $1" >&2; exit 1 ;;
+esac
+[[ $# -le 1 ]] || { echo 'Too many arguments' >&2; exit 1; }
+# Replacing an in-use executable/library is unsafe. Use stock Sway to rebuild.
+for pid in $(pgrep -u "$(id -u)" -x sway || true); do
+  exe=$(readlink "/proc/$pid/exe" || true)
+  if [[ "$exe" == "$prefix/bin/sway"* ]]; then
+    echo 'SwayFX is running. Log into stock Sway or a text TTY before rebuilding.' >&2
+    exit 1
+  fi
+done
+for cmd in git python cc c++ pkg-config make; do
+  command -v "$cmd" >/dev/null || { echo "Missing build tool: $cmd" >&2; exit 1; }
+done
+pkg-config --atleast-version=0.20.0 wlroots-0.20 || {
+  echo 'Requires system wlroots-0.20 headers/libraries. See pacman-desktop.txt.' >&2; exit 1;
+}
+checkout() {
+  local name=$1 url=$2 rev=$3 dir="$src/$1"
+  if [[ ! -e "$dir" ]]; then
+    mkdir -p "$dir"
+    git -C "$dir" init -q
+    git -C "$dir" remote add origin "$url"
+  fi
+  [[ -d "$dir/.git" ]] || { echo "Not a Git checkout: $dir" >&2; exit 1; }
+  if ! git -C "$dir" diff --quiet || ! git -C "$dir" diff --cached --quiet; then
+    echo "Refusing to overwrite source edits in $dir" >&2; exit 1
+  fi
+  if ! git -C "$dir" cat-file -e "$rev^{commit}" 2>/dev/null; then
+    git -C "$dir" fetch --depth=1 "$url" "$rev"
+  fi
+  git -C "$dir" checkout --detach "$rev"
+  [[ "$(git -C "$dir" rev-parse HEAD)" == "$rev" ]]
+}
+mkdir -p "$src"
+checkout swayfx https://github.com/WillPower3309/swayfx.git "$sway_rev"
+checkout scenefx https://github.com/wlrfx/scenefx.git "$scene_rev"
+checkout meson https://github.com/mesonbuild/meson.git "$meson_rev"
+checkout ninja https://github.com/ninja-build/ninja.git "$ninja_rev"
+(cd "$src/ninja" && python configure.py --bootstrap)
+export PATH="$src/ninja:$PATH"
+mkdir -p "$src/swayfx/subprojects"
+link="$src/swayfx/subprojects/scenefx"
+if [[ ! -e "$link" && ! -L "$link" ]]; then
+  ln -s "$src/scenefx" "$link"
+elif [[ "$(readlink -f "$link")" != "$src/scenefx" ]]; then
+  echo "Refusing to replace existing subproject: $link" >&2; exit 1
+fi
+setup_args=()
+[[ ! -f "$src/swayfx/build/meson-private/coredata.dat" ]] || setup_args+=(--reconfigure)
+python "$src/meson/meson.py" setup "${setup_args[@]}" \
+  "$src/swayfx/build" "$src/swayfx" \
+  --prefix="$prefix" --libdir=lib --buildtype=release \
+  -Dscenefx:examples=false -Dman-pages=disabled -Ddefault-wallpaper=false \
+  -Dwerror=false -Dc_link_args="-Wl,-rpath,$prefix/lib"
+ninja -C "$src/swayfx/build" -j "${JOBS:-6}"
+python "$src/meson/meson.py" install -C "$src/swayfx/build" --no-rebuild
+install -D -m 755 "$repo/.local/bin/swayfx" "$HOME/.local/bin/swayfx"
+session="$HOME/.local/share/wayland-sessions/swayfx.desktop"
+mkdir -p "$(dirname "$session")"
+printf '%s\n' '[Desktop Entry]' 'Name=SwayFX (Bauhaus)' \
+  'Comment=Source-built SwayFX with Bauhaus styling' \
+  "Exec=\"$HOME/.local/bin/swayfx\"" "TryExec=$HOME/.local/bin/swayfx" \
+  'Type=Application' 'DesktopNames=sway;wlroots' > "$session"
+"$prefix/bin/sway" --version
+if [[ -f "$HOME/.config/swayfx/config" ]]; then "$HOME/.local/bin/swayfx" --validate; fi
+printf '\nTo register with Ly, run:\n  sudo install -m 644 "%s" /usr/share/wayland-sessions/swayfx.desktop\n' "$session"
+printf 'Save your work and reboot to refresh Ly, then select SwayFX (Bauhaus).\n'

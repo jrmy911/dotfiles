@@ -1,0 +1,5 @@
+include ~/.config/sway/config
+corner_radius 12
+animation_duration_ms 300
+blur disable
+shadows disable

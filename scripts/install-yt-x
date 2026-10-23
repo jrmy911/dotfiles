@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Install the exact yt-x version tested with the tracked playback workaround.
+set -euo pipefail
+rev=6717a468700a98fbd7c35f17913cb5285b10c477
+sha256=efba5ebb1007f6c5966624d91eaaa48b5879ac5dd21be15058ee5ebb7c7d7077
+url="https://raw.githubusercontent.com/Benexl/yt-x/$rev/yt-x"
+dest="$HOME/.local/bin/yt-x"
+case "${1:-}" in
+  --dry-run) printf 'Install yt-x v0.8.7 (%s) from %s to %s\n' "$rev" "$url" "$dest"; exit 0 ;;
+  --help|-h) echo "Usage: $0 [--dry-run]"; exit 0 ;;
+  '') ;;
+  *) echo "Unknown option: $1" >&2; exit 1 ;;
+esac
+[[ $# -le 1 ]] || { echo 'Too many arguments' >&2; exit 1; }
+tmp=$(mktemp)
+trap 'rm -f "$tmp"' EXIT
+curl --fail --location --proto '=https' --tlsv1.2 "$url" -o "$tmp"
+printf '%s  %s\n' "$sha256" "$tmp" | sha256sum --check --status
+if [[ -e "$dest" || -L "$dest" ]]; then
+  if cmp -s "$tmp" "$dest"; then echo 'Pinned yt-x is already installed.'; exit 0; fi
+  mkdir -p "$HOME/.local/state/dotfiles/backups"
+  backup=$(mktemp -d "$HOME/.local/state/dotfiles/backups/yt-x-XXXXXXXX")
+  cp -a "$dest" "$backup/yt-x"
+  printf 'Previous executable backed up to %s\n' "$backup"
+fi
+install -D -m 755 "$tmp" "$dest"
+"$dest" --version

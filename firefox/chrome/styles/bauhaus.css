@@ -1,0 +1,83 @@
+/* Local Bauhaus adaptation of MiniSthetic. Keep upstream files unchanged.
+ * Palette: ~/.config/ghostty/themes/bauhaus
+ * Upstream uses moonlight-* variable names; retain them for compatibility.
+ */
+:root {
+    color-scheme: dark;
+    --moonlight-desaturated-gray: #98A0AE !important;
+    --moonlight-dark-blue: #5E738B !important;
+    --moonlight-blue: #809D9E !important;
+    --moonlight-sky-blue: #8999AA !important;
+    --moonlight-cyan: #759496 !important;
+    --moonlight-red: #E37B66 !important;
+    --moonlight-dark-red: #C0704F !important;
+    --moonlight-light-red: #CB886D !important;
+    --moonlight-yellow: #E0A568 !important;
+    --moonlight-orange: #E7A46F !important;
+    --moonlight-dark-orange: #E06C55 !important;
+    --moonlight-teal: #809D9E !important;
+    --moonlight-green: #7B9B9F !important;
+    --moonlight-purple: #8D758F !important;
+    --moonlight-pink: #CB886D !important;
+    --moonlight-indigo: #6C7C82 !important;
+    --moonlight-bright-cyan: #7B9B9F !important;
+    --moonlight-gray-10-alt: #C6CED8 !important;
+    --moonlight-gray-10: #EAEFF5 !important;
+    --moonlight-gray-9: #EAEFF5 !important;
+    --moonlight-gray-8: #C6CED8 !important;
+    --moonlight-gray-7: #98A0AE !important;
+    --moonlight-gray-6: #6C7C82 !important;
+    --moonlight-gray-5: #2B3040 !important;
+    --moonlight-gray-4: #222733 !important;
+    --moonlight-gray-3: #161B22 !important;
+    --moonlight-gray-2: #101318 !important;
+    --moonlight-gray-1: #101318 !important;
+    --moonlight-gray: #98A0AE !important;
+    --baseBG: #101318 !important;
+    --scrollbar-chrome-radius: 6px;
+    --toolbar-bgcolor: #101318 !important;
+    --toolbar-color: #EAEFF5 !important;
+    --lwt-text-color: #EAEFF5 !important;
+    --lwt-accent-color: #101318 !important;
+    --sidebar-background-color: #101318 !important;
+    --sidebar-text-color: #EAEFF5 !important;
+    --sidebar-border-color: #222733 !important;
+    --toolbarbutton-hover-background: #222733 !important;
+    --toolbarbutton-active-background: #2B3040 !important;
+    --focus-outline-color: #809D9E !important;
+}
+
+#sidebar-main,
+#sidebar-box {
+    background-color: var(--baseBG) !important;
+    color: var(--moonlight-gray-10) !important;
+}
+
+#urlbar #urlbar-background,
+#sidebar-search-container #search-box,
+#sidebar-search-container #viewButton,
+#editBookmarkPanel input,
+#PersonalToolbar toolbarbutton.bookmark-item,
+findbar .findbar-textbox,
+findbar .findbar-button {
+    border-radius: 8px !important;
+}
+
+.tab-content,
+.tab-content[selected] {
+    border-radius: 8px !important;
+}
+
+.tabbrowser-tab[selected] .tab-content {
+    background-color: #2B3040 !important;
+    color: #E37B66 !important;
+}
+
+/* Keep enabled navigation controls legible (upstream uses a background shade). */
+#forward-button:not([disabled]) {
+    color: #98A0AE !important;
+}
+
+.tabbrowser-tab .close-icon {
+    fill: #98A0AE !important;
+}

@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+"""Install only the versioned Firefox CSS/preferences, never browser profile data."""
+import argparse
+import configparser
+from datetime import datetime
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+
+REPO = Path(__file__).resolve().parent.parent
+HOME = Path.home()
+
+
+def discover_profile():
+    candidates = set()
+    preferred = set()
+    for root in (HOME / '.config/mozilla/firefox', HOME / '.mozilla/firefox'):
+        ini = root / 'profiles.ini'
+        if not ini.is_file():
+            continue
+        config = configparser.ConfigParser(interpolation=None)
+        config.read(ini)
+        for section in config.sections():
+            if section.startswith('Install') and config.has_option(section, 'Default'):
+                path = Path(config[section]['Default'])
+                preferred.add(path if path.is_absolute() else root / path)
+            elif section.startswith('Profile') and config.has_option(section, 'Path'):
+                path = Path(config[section]['Path'])
+                if config[section].get('IsRelative', '1') == '1':
+                    path = root / path
+                candidates.add(path)
+        installs = configparser.ConfigParser(interpolation=None)
+        installs.read(root / 'installs.ini')
+        for section in installs.sections():
+            if installs.has_option(section, 'Default'):
+                path = Path(installs[section]['Default'])
+                preferred.add(path if path.is_absolute() else root / path)
+    choices = {p.resolve() for p in preferred if p.is_dir()}
+    if not choices:
+        choices = {p.resolve() for p in candidates if p.is_dir()}
+    if len(choices) != 1:
+        raise ValueError('Cannot select one Firefox profile; pass --profile /path/from/about:profiles.')
+    return choices.pop()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--profile', type=Path, help='Explicit Firefox profile directory')
+    parser.add_argument('--dry-run', action='store_true')
+    args = parser.parse_args()
+    profile = args.profile.expanduser().resolve() if args.profile else discover_profile()
+    if not profile.is_dir():
+        raise ValueError(f'Profile does not exist: {profile}. Start Firefox once first.')
+    print(f'Firefox profile: {profile}')
+    if not args.dry_run:
+        if not shutil.which('pgrep'):
+            raise ValueError('pgrep is required to check that Firefox is closed.')
+        running = subprocess.run(['pgrep', '-u', str(os.getuid()), '-x', 'firefox'],
+                                 stdout=subprocess.DEVNULL, check=False)
+        if running.returncode == 0:
+            raise ValueError('Fully quit Firefox before installing the theme.')
+        if running.returncode != 1:
+            raise ValueError('Could not check Firefox processes; refusing to modify the profile.')
+    chrome = profile / 'chrome'
+    prefs = profile / 'user.js'
+    # Replace only our three preferences, preserving other user.js customizations.
+    pattern = r'^\s*user_pref\("(toolkit\.legacyUserProfileCustomizations\.stylesheets|sidebar\.(revamp|verticalTabs))"\s*,'
+    existing = prefs.read_text() if prefs.exists() else ''
+    lines = [line for line in existing.splitlines() if not re.match(pattern, line)]
+    marker = '// Managed by dotfiles/scripts/install-firefox-theme'
+    lines = [line for line in lines if line != marker]
+    # Avoid accumulating the template's explanatory comments on repeated installs.
+    template = (REPO / 'firefox/user.js').read_text()
+    additions = '\n'.join(line for line in template.splitlines() if line.startswith('user_pref('))
+    merged = '\n'.join(lines).rstrip() + '\n\n' + marker + '\n' + additions + '\n'
+    print(f'Copy {REPO / "firefox/chrome"} -> {chrome}')
+    print(f'Merge CSS/vertical-tabs preferences into {prefs}')
+    if args.dry_run:
+        print('Dry run: no files changed; Firefox may remain running.')
+        return
+    backup = HOME / '.local/state/dotfiles/backups' / datetime.now().strftime('firefox-%Y%m%d-%H%M%S-%f')
+    backup.mkdir(parents=True)
+    if chrome.exists():
+        shutil.copytree(chrome, backup / 'chrome', symlinks=True)
+    if prefs.exists():
+        shutil.copy2(prefs, backup / 'user.js')
+    else:
+        (backup / 'user.js-was-absent').touch()
+    # Merge managed theme files, leaving unrelated local chrome files alone.
+    shutil.copytree(REPO / 'firefox/chrome', chrome, dirs_exist_ok=True)
+    prefs.write_text(merged)
+    print(f'Backup: {backup}')
+    print('Start Firefox to load the MiniSthetic/Bauhaus theme and native vertical tabs.')
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except (OSError, ValueError, configparser.Error) as error:
+        sys.exit(f'Error: {error}')

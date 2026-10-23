@@ -59,10 +59,9 @@ for_window {
   [app_id="com.onepassword.OnePassword"] floating enable, move position center, resize set 70ppt 60ppt 
 }
 
-
-
-gaps inner 0
-smart_gaps on
+gaps inner 6
+gaps outer 1
+smart_gaps off
 
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
@@ -156,7 +155,7 @@ set $info             #8999AA
 set $selection_bg     #2B3040
 
 # class                 border           bground          text             indicator        child_border
-client.focused          $tertiary_accent $tertiary_bg     $text_primary    $tertiary_accent $tertiary_accent
-client.focused_inactive $text_dim        $secondary_bg    $text_secondary  $text_dim        $text_dim
+client.focused          $tertiary_bg     $secondary_bg    $text_primary    $tertiary_bg     $tertiary_bg
+client.focused_inactive $secondary_bg    $secondary_bg    $text_secondary  $secondary_bg    $secondary_bg
 client.unfocused        $primary_bg      $primary_bg      $text_dim        $primary_bg      $primary_bg
 client.urgent           $error           $error           $text_primary    $error           $error

@@ -1,0 +1,4 @@
+#!/bin/sh
+prefix="$HOME/.local/opt/swayfx"
+export PATH="$prefix/bin:$PATH"
+exec "$prefix/bin/sway" --config "$HOME/.config/swayfx/config" "$@"

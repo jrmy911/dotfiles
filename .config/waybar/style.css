@@ -1,15 +1,26 @@
-@define-color foreground #e0def4;
-@define-color background #191724;
+/* Bauhaus — palette shared with Ghostty's themes/bauhaus. */
+@define-color background #101318;
+@define-color surface #161B22;
+@define-color selection #2B3040;
+@define-color foreground #EAEFF5;
+@define-color muted #98A0AE;
+@define-color coral #E37B66;
+@define-color amber #E0A568;
+@define-color teal #809D9E;
 
 * {
-  background-color: @background;
-  color: @foreground;
-
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: 'Geist Mono';
-  font-size: 14px;
+  font-family: 'GeistMono Nerd Font';
+  font-size: 13px;
+}
+
+window#waybar {
+  background-color: @background;
+  color: @foreground;
+  border-bottom: 1px solid @selection;
+  border-radius: 0;
 }
 
 .modules-left {
@@ -22,48 +33,90 @@
 
 #workspaces button {
   all: initial;
-  padding: 0 6px;
-  margin: 0 1.5px;
+  font-family: 'GeistMono Nerd Font';
+  font-size: 13px;
+  color: @muted;
+  background-color: transparent;
+  border-radius: 8px;
+  padding: 0 8px;
+  margin: 5px 2px;
   min-width: 9px;
-  opacity: 0.5;
 }
 
 #workspaces button.focused {
-  opacity: 1;
+  background-color: @selection;
+  color: @coral;
+}
+
+#workspaces button:hover {
+  background-color: @surface;
+  color: @foreground;
+  box-shadow: none;
+}
+
+#workspaces button.urgent {
+  background-color: @coral;
+  color: @background;
 }
 
 #cpu,
 #battery,
-#pulseaudio {
+#pulseaudio,
+#bluetooth,
+#network {
   min-width: 12px;
-  margin: 0 7.5px;
+  padding: 0 8px;
+  margin: 5px 1px;
+  border-radius: 8px;
+}
+
+#bluetooth,
+#network {
+  color: @teal;
+}
+
+#pulseaudio {
+  color: @amber;
+}
+
+#pulseaudio.muted,
+#network.disconnected,
+#bluetooth.off,
+#bluetooth.disabled {
+  color: @muted;
+}
+
+#battery.warning {
+  color: @amber;
+}
+
+#battery.critical {
+  color: @coral;
 }
 
 #tray {
-  margin-right: 16px;
-}
-
-#bluetooth {
-  margin-right: 17px;
-}
-
-#network {
-  margin-right: 13px;
-}
-
-#custom-expand-icon {
-  margin-right: 18px;
-}
-
-tooltip {
-  padding: 2px;
+  margin: 0 12px;
 }
 
 #clock {
-  margin-left: 8.75px;
+  padding: 0 12px;
+  margin: 5px 0;
+  border-radius: 8px;
+  color: @foreground;
+}
+
+tooltip {
+  background-color: @surface;
+  color: @foreground;
+  border: 1px solid @teal;
+  border-radius: 10px;
+}
+
+tooltip label {
+  padding: 6px;
+  color: @foreground;
 }
 
 .hidden {
   opacity: 0;
 }
-

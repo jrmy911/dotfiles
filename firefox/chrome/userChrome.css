@@ -1,0 +1,30 @@
+/* MiniSthetic Firefox, upstream 14e29549266d6898173dff92bed9a8120efd91db. */
+@import './styles/_variables.css';
+@import './styles/_global.css';
+@import './styles/_tab-bar.css';
+@import './styles/_navigation-bar.css';
+@import './styles/_bookmarks-bar.css';
+@import './styles/_find-bar.css';
+@import './styles/_side-bar.css';
+@import './styles/_menu.css';
+@import './styles/_home.css';
+@import './styles/bauhaus.css';
+
+/* Preserve the existing desktop font. */
+.tab-label,
+#urlbar,
+#urlbar-input,
+#urlbar-container,
+#nav-bar,
+#toolbar-menubar,
+toolbar,
+toolbarbutton,
+.menuitem,
+menupopup,
+#sidebar-box,
+#statuspanel,
+#unified-extensions-view,
+#downloadsPanel,
+#downloadsListBox {
+    font-family: "GeistMono Nerd Font", monospace !important;
+}

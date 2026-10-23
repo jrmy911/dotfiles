@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Copy only the desktop files managed by this setup; do not touch other dotfiles.
+set -euo pipefail
+repo=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+dry_run=false
+case "${1:-}" in
+  --dry-run) dry_run=true ;;
+  --help|-h) echo "Usage: $0 [--dry-run]"; exit 0 ;;
+  '') ;;
+  *) echo "Unknown option: $1" >&2; exit 1 ;;
+esac
+if [[ $# -gt 1 ]]; then echo 'Too many arguments' >&2; exit 1; fi
+backup=''
+copy_file() {
+  local src=$1 dest=$2 mode=${3:-644}
+  if [[ -f "$dest" ]] && cmp -s -- "$src" "$dest"; then return; fi
+  printf '%s -> %s\n' "${src#"$repo/"}" "$dest"
+  if "$dry_run"; then return; fi
+  if [[ -z "$backup" ]]; then
+    mkdir -p "$HOME/.local/state/dotfiles/backups"
+    backup=$(mktemp -d "$HOME/.local/state/dotfiles/backups/desktop-XXXXXXXX")
+  fi
+  if [[ -e "$dest" || -L "$dest" ]]; then
+    mkdir -p -- "$backup/$(dirname -- "${dest#"$HOME/"}")"
+    cp -a -- "$dest" "$backup/${dest#"$HOME/"}"
+  fi
+  install -D -m "$mode" -- "$src" "$dest"
+}
+for dir in sway swayfx waybar rofi mako ghostty yt-x; do
+  while IFS= read -r -d '' src; do
+    mode=644
+    [[ "$src" == *.sh ]] && mode=755
+    copy_file "$src" "$HOME/${src#"$repo/"}" "$mode"
+  done < <(find "$repo/.config/$dir" -type f -print0)
+done
+copy_file "$repo/.local/bin/swayfx" "$HOME/.local/bin/swayfx" 755
+copy_file "$repo/scripts/add-task" "$HOME/.local/bin/add-task" 755
+copy_file "$repo/wallhaven-3q2zdd.jpg" "$HOME/assets/wallhaven-3q2zdd.jpg"
+if [[ -n "$backup" ]]; then printf 'Previous files backed up to %s\n' "$backup"; fi
+printf 'No running applications were reloaded. See README.md for installation and activation.\n'
