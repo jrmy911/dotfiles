@@ -1,12 +1,29 @@
 #!/usr/bin/env fish
 
-# Use the window's current dimensions; allow scrolling through the whole report.
-command task next limit:0
-set -l result $status
+while true
+    if isatty stdout; and test "$TERM" != dumb
+        # Clear the visible screen, not the terminal's scrollback.
+        printf '\e[H\e[2J'
+    end
 
-if isatty stdin
+    # Keep report headers but suppress Taskwarrior's generic "No matches" text.
+    # Do not capture the report: Taskwarrior should see the real terminal width.
+    command task rc.verbose:label,header next limit:0
+    set -l result $status
+    if test "$result" -eq 1
+        printf '\nNo actionable tasks.\nAdd one with Meta+Shift+Space, or press R to check again.\n'
+        set result 0
+    end
+
+    isatty stdin; or exit $result
     printf '\n'
-    read -P 'Press Enter to close. ' --local ignored
+    while true
+        read --nchars 1 -P '[R] Refresh  [Q/Enter] Close: ' --local key; or exit $result
+        switch "$key"
+            case r R
+                break
+            case q Q ''
+                exit $result
+        end
+    end
 end
-
-exit $result

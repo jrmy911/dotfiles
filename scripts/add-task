@@ -35,15 +35,29 @@ end
 bind tab __add_task_complete
 bind -M insert tab __add_task_complete
 
-printf '  Project     project:work        Tab opens project menu\n'
-printf '  Subproject  project:work.website\n'
-printf '  Tags        +email +errands     Tab after + opens tag menu\n'
-printf '  Due date    due:tomorrow        due:2026-12-31 or due:friday\n'
-printf '  Due time    due:tomorrowT09:00\n'
-printf '  Schedule    scheduled:monday    Planned start date\n'
-printf '  Hide until  wait:friday         Hide from pending until Friday\n'
-printf '  Priority    priority:H          H (high), M (medium), L (low)\n'
-printf '  Repeat      recur:weekly        Also needs a due: date\n\n'
+# Keep redirected output plain and respect terminals with colors disabled.
+set -l project_color ''
+set -l tag_color ''
+set -l date_color ''
+set -l priority_color ''
+set -l reset ''
+if isatty stdout; and test "$TERM" != dumb; and not set -q NO_COLOR
+    set project_color (set_color cyan)
+    set tag_color (set_color magenta)
+    set date_color (set_color green)
+    set priority_color (set_color yellow)
+    set reset (set_color normal)
+end
+
+printf '  Project     %sproject:work%s        Tab opens project menu\n' "$project_color" "$reset"
+printf '  Subproject  %sproject:work.website%s\n' "$project_color" "$reset"
+printf '  Tags        %s+email +errands%s     Tab after + opens tag menu\n' "$tag_color" "$reset"
+printf '  Due date    %sdue:tomorrow%s        due:2026-12-31 or due:friday\n' "$date_color" "$reset"
+printf '  Due time    %sdue:tomorrowT09:00%s\n' "$date_color" "$reset"
+printf '  Schedule    %sscheduled:monday%s    Planned start date\n' "$date_color" "$reset"
+printf '  Hide until  %swait:friday%s         Hide from pending until Friday\n' "$date_color" "$reset"
+printf '  Priority    %spriority:H%s          H (high), M (medium), L (low)\n' "$priority_color" "$reset"
+printf '  Repeat      %srecur:weekly%s        Also needs a due: date\n\n' "$date_color" "$reset"
 
 set -l draft ''
 while true
