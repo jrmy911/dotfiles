@@ -19,7 +19,7 @@
 # ===================================================================================
 
 # List of extensions to load automatically on startup
-CONFIG_AUTOLOADED_EXTENSIONS=""
+CONFIG_AUTOLOADED_EXTENSIONS="ui/image-preview.sh"
 
 # Enable or disable colored/formatted output
 # Options: true, false (Default: true)
@@ -31,12 +31,13 @@ CONFIG_LAUNCHER="fzf"
 
 # Enable image/video previews within the selector
 # Options: true, false (Default: false)
-CONFIG_ENABLE_PREVIEW="false"
-CONFIG_ENABLE_PREVIEW_IMAGES="false"
+CONFIG_ENABLE_PREVIEW="true"
+CONFIG_ENABLE_PREVIEW_IMAGES="true"
 
 # The tool used to render previews in the terminal
 # Options: chafa, icat, imgcat (Default: chafa)
-CONFIG_IMAGE_RENDERER="chafa"
+# Sharp pixel images in Ghostty/Kitty, with Chafa fallback via the extension.
+CONFIG_IMAGE_RENDERER="icat"
 
 # Extra arguments for specific image renderers
 CONFIG_CHAFA_ARGS=""
@@ -73,7 +74,7 @@ CONFIG_PER_PAGE="30"
 # passed to --cookies-from-browser yt-dlp option
 # Currently supported browsers are: brave, chrome, chromium, edge, firefox, opera, safari, vivaldi, whale
 # NOTE: this option is entirely dependent on what yt-dlp supports
-CONFIG_BROWSER=""
+CONFIG_BROWSER="firefox"
 
 # Text editor for manual configuration/metadata editing
 # Options: vim, nano, code ... (Default: $EDITOR or vi)
@@ -111,7 +112,9 @@ CONFIG_GUM_CONFIRM_OPTS="--prompt.foreground #2ac3de --selected.foreground #1a1b
 # Custom options passed directly to fzf
 CONFIG_FZF_HEADER="\
 "
+# yt-x generates POSIX-shell previews; do not run them with $SHELL (Fish).
 CONFIG_FZF_OPTS="
+  --with-shell='sh -c'
   --ansi
   --border
   --scheme=history

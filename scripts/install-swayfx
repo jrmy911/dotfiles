@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Build pinned upstream sources into an isolated, user-owned prefix. No AUR/sudo.
 set -euo pipefail
 repo=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 src="$HOME/.local/src"
@@ -31,7 +30,7 @@ for cmd in git python cc c++ pkg-config make; do
   command -v "$cmd" >/dev/null || { echo "Missing build tool: $cmd" >&2; exit 1; }
 done
 pkg-config --atleast-version=0.20.0 wlroots-0.20 || {
-  echo 'Requires system wlroots-0.20 headers/libraries. See pacman-desktop.txt.' >&2; exit 1;
+  echo 'Requires system wlroots-0.20 headers/libraries. See pacman.txt.' >&2; exit 1;
 }
 checkout() {
   local name=$1 url=$2 rev=$3 dir="$src/$1"

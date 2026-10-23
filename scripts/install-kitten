@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+version=0.49.2
+sha256=2a803b4d411f327cc41b7193cb529f6de06ae3b169a346b3060212bbfeafc8bc
+url="https://github.com/kovidgoyal/kitty/releases/download/v$version/kitten-linux-amd64"
+dest="$HOME/.local/bin/kitten"
+case "${1:-}" in
+  --dry-run) printf 'Install standalone kitten %s from %s to %s\n' "$version" "$url" "$dest"; exit 0 ;;
+  --help|-h) echo "Usage: $0 [--dry-run] (Linux x86_64)"; exit 0 ;;
+  '') ;;
+  *) echo "Unknown option: $1" >&2; exit 1 ;;
+esac
+[[ $# -le 1 ]] || { echo 'Too many arguments' >&2; exit 1; }
+[[ "$(uname -s):$(uname -m)" == Linux:x86_64 ]] || {
+  echo 'This pinned release asset is for Linux x86_64 only.' >&2; exit 1;
+}
+if [[ -f "$dest" ]] && printf '%s  %s\n' "$sha256" "$dest" | sha256sum --check --status; then
+  echo 'Pinned kitten is already installed.'
+  exit 0
+fi
+tmp=$(mktemp)
+trap 'rm -f "$tmp"' EXIT
+curl --fail --location --proto '=https' --tlsv1.2 "$url" -o "$tmp"
+printf '%s  %s\n' "$sha256" "$tmp" | sha256sum --check --status
+if [[ -e "$dest" || -L "$dest" ]]; then
+  mkdir -p "$HOME/.local/state/dotfiles/backups"
+  backup=$(mktemp -d "$HOME/.local/state/dotfiles/backups/kitten-XXXXXXXX")
+  cp -a "$dest" "$backup/kitten"
+  printf 'Previous helper backed up to %s\n' "$backup"
+fi
+install -D -m 755 "$tmp" "$dest"
+"$dest" --version
