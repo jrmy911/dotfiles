@@ -1,9 +1,41 @@
 #!/usr/bin/env fish
 
-read -P "Task: " task
+# Keep completion local to this script's Fish process.
+function __add_task_complete_project
+    set -l token (commandline --current-token)
+    string match --quiet 'project:*' -- "$token"; or return
 
-if test -n "$task"
-    task add "$task"
+    if not set -q __add_task_last; or test "$token" != "$__add_task_last"
+        set -l prefix (string replace 'project:' '' -- "$token")
+        set -l pattern '^(?:'(string escape --style=regex -- "$prefix")')'
+        set -g __add_task_matches (command task _projects 2>/dev/null | string match --regex -- "$pattern.*")
+        set -g __add_task_index 0
+    end
+
+    set -l total (count $__add_task_matches)
+    test "$total" -gt 0; or return
+    set -g __add_task_index (math "$__add_task_index % $total + 1")
+    set -g __add_task_last "project:$__add_task_matches[$__add_task_index]"
+    commandline --current-token --replace -- "$__add_task_last"
+end
+
+bind tab __add_task_complete_project
+bind -M insert tab __add_task_complete_project
+
+printf '  Project     project:work        Tab cycles matching projects\n'
+printf '  Subproject  project:work.website\n'
+printf '  Tags        +email +errands     (labels use a + prefix)\n'
+printf '  Due date    due:tomorrow        due:2026-12-31 or due:friday\n'
+printf '  Due time    due:tomorrowT09:00\n'
+printf '  Schedule    scheduled:monday    Planned start date\n'
+printf '  Hide until  wait:friday         Hide from pending until Friday\n'
+printf '  Priority    priority:H          H (high), M (medium), L (low)\n'
+printf '  Repeat      recur:weekly        Also needs a due: date\n\n'
+
+read --tokenize --array -P "Task: " task
+
+if string length --quiet -- $task
+    command task add $task
 end
 
 exit
