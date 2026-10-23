@@ -51,7 +51,7 @@ export PATH="$HOME/.local/bin:$PATH"
 # Check dangerous conditions before sudo or any changes to the desktop.
 if ! "$dry_run"; then
   [[ $EUID -ne 0 ]] || die 'Do not run setup with sudo; it would install user files into root HOME.'
-  for script in apply-desktop install-yt-x install-kitten; do
+  for script in apply-desktop install-yt-x install-kitten install-mandible; do
     [[ -x "$repo/scripts/$script" ]] || die "Missing executable: scripts/$script"
   done
   if "$packages" || "$session"; then
@@ -109,6 +109,7 @@ run "$repo/scripts/apply-desktop"
 if "$swayfx"; then run "$repo/scripts/install-swayfx"; fi
 run "$repo/scripts/install-yt-x"
 run "$repo/scripts/install-kitten"
+run "$repo/scripts/install-mandible"
 if "$firefox"; then run "$repo/scripts/install-firefox-theme" "${firefox_args[@]}"; fi
 if "$session"; then
   run sudo install -D -m 644 "$HOME/.local/share/wayland-sessions/swayfx.desktop" \

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Reproduce the Mandible version installed through Cargo on this machine.
+set -euo pipefail
+version=0.8.4
+[[ $# -le 1 ]] || { echo 'Too many arguments' >&2; exit 1; }
+case "${1:-}" in
+  --dry-run)
+    printf 'cargo install --locked --version =%s mandible\n' "$version"
+    exit 0 ;;
+  --help|-h) echo "Usage: $0 [--dry-run]"; exit 0 ;;
+  '') ;;
+  *) echo "Unknown option: $1" >&2; exit 1 ;;
+esac
+command -v cargo >/dev/null || {
+  echo 'Cargo is required; install the rust package from pacman.txt first.' >&2
+  exit 1
+}
+# Cargo skips installation if this exact version is already installed.
+cargo install --locked --version "=$version" mandible
