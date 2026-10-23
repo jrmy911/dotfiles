@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Copy only the desktop files managed by this setup; do not touch other dotfiles.
 set -euo pipefail
 repo=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 dry_run=false
@@ -32,6 +31,9 @@ for dir in sway swayfx waybar rofi mako ghostty yt-x; do
     [[ "$src" == *.sh ]] && mode=755
     copy_file "$src" "$HOME/${src#"$repo/"}" "$mode"
   done < <(find "$repo/.config/$dir" -type f -print0)
+done
+for name in config.json custom_theme.json; do
+  copy_file "$repo/.config/clipse/$name" "$HOME/.config/clipse/$name"
 done
 copy_file "$repo/.local/bin/swayfx" "$HOME/.local/bin/swayfx" 755
 copy_file "$repo/scripts/add-task" "$HOME/.local/bin/add-task" 755

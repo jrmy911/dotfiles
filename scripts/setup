@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# One entry point for the existing, backup-aware desktop installers.
 set -Eeuo pipefail
 repo=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 dry_run=false
 packages=true
+local_packages=true
 swayfx=true
 firefox=true
 session=true
@@ -13,6 +13,7 @@ usage() {
     "Usage: $0 [options]" \
     '  --dry-run                 Print the plan without running commands or sudo' \
     '  --skip-packages           Do not upgrade/install packages from pacman.txt' \
+    '  --skip-local-packages     Skip the vendored Clipse and 1Password CLI builds' \
     '  --skip-swayfx             Skip the SwayFX build and Ly session registration' \
     '  --skip-firefox            Leave Firefox untouched' \
     '  --skip-session            Build SwayFX without registering it with Ly' \
@@ -22,13 +23,14 @@ usage() {
     'Run as your regular user, from stock Sway or a text TTY, with Firefox closed.' \
     'Firefox must have been started once to create a profile, or use --skip-firefox.' \
     'Packages use a full Arch upgrade; sudo/pacman retain their normal prompts.' \
-    'No AUR, automatic reboot, service restart, or session termination.'
+    'No AUR helper/live recipe downloads, automatic reboot, or service restart.'
 }
 die() { printf 'Error: %s\n' "$*" >&2; exit 1; }
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run) dry_run=true ;;
     --skip-packages) packages=false ;;
+    --skip-local-packages) local_packages=false ;;
     --skip-swayfx) swayfx=false ;;
     --skip-firefox) firefox=false ;;
     --skip-session) session=false ;;
@@ -48,13 +50,15 @@ fi
 trap 'status=$?; printf "Setup stopped (exit %s). Earlier steps may have completed; check the output and backups before rerunning.\n" "$status" >&2; exit "$status"' ERR
 export PATH="$HOME/.local/bin:$PATH"
 
-# Check dangerous conditions before sudo or any changes to the desktop.
 if ! "$dry_run"; then
   [[ $EUID -ne 0 ]] || die 'Do not run setup with sudo; it would install user files into root HOME.'
   for script in apply-desktop install-yt-x install-kitten install-mandible; do
     [[ -x "$repo/scripts/$script" ]] || die "Missing executable: scripts/$script"
   done
-  if "$packages" || "$session"; then
+  if "$local_packages"; then
+    [[ -x "$repo/scripts/install-local-packages" ]] || die 'Missing scripts/install-local-packages'
+  fi
+  if "$packages" || "$session" || "$local_packages"; then
     command -v sudo >/dev/null || die 'sudo is required for packages/session registration'
   fi
   if "$packages"; then
@@ -105,6 +109,7 @@ if "$packages"; then
   printf '\n[%s] sudo pacman -Syu --needed - < %q\n' "$step" "$repo/pacman.txt"
   if ! "$dry_run"; then sudo pacman -Syu --needed - < "$repo/pacman.txt"; fi
 fi
+if "$local_packages"; then run "$repo/scripts/install-local-packages"; fi
 run "$repo/scripts/apply-desktop"
 if "$swayfx"; then run "$repo/scripts/install-swayfx"; fi
 run "$repo/scripts/install-yt-x"

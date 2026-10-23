@@ -9,7 +9,10 @@
 DS_Store
 Thumbs.db
 
-# Backup files
+.config/clipse/*
+!.config/clipse/config.json
+!.config/clipse/custom_theme.json
+
 *.bak
 *.swp
 *.swo

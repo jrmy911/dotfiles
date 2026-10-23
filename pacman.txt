@@ -19,6 +19,7 @@ fzf
 gdk-pixbuf2
 ghostty
 git
+gnupg
 go
 grep
 grim

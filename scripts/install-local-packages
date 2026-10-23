@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+repo=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+dry_run=false
+[[ $# -le 1 ]] || { echo 'Too many arguments' >&2; exit 1; }
+case "${1:-}" in
+  --dry-run) dry_run=true ;;
+  --help|-h) echo "Usage: $0 [--dry-run]"; exit 0 ;;
+  '') ;;
+  *) echo "Unknown option: $1" >&2; exit 1 ;;
+esac
+cache="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/packages"
+if "$dry_run"; then
+  printf 'Build/install clipse 1.2.1-1 and 1password-cli 2.39.0-1 from packages/\n'
+  printf 'Skip matching installed versions; build under %s\n' "$cache"
+  printf 'Verify source SHA-256 checksums and 1Password signature with the pinned public key.\n'
+  printf 'makepkg --cleanbuild --force --check --syncdeps --install --needed\n'
+  printf 'Run as your regular user; sudo/pacman retain their normal prompts.\n'
+  exit 0
+fi
+[[ $EUID -ne 0 ]] || { echo 'Do not run this installer with sudo/root.' >&2; exit 1; }
+for cmd in pacman makepkg gpg sudo; do
+  command -v "$cmd" >/dev/null || { echo "Missing $cmd; install prerequisites from pacman.txt first." >&2; exit 1; }
+done
+
+keyring=''
+trap 'if [[ -n "$keyring" ]]; then rm -rf -- "$keyring"; fi' EXIT
+for spec in 'clipse 1.2.1-1' '1password-cli 2.39.0-1'; do
+  read -r package version <<< "$spec"
+  installed=$(pacman -Q "$package" 2>/dev/null) || installed=''
+  if [[ "$installed" == "$package $version" ]]; then
+    printf '%s %s is already installed.\n' "$package" "$version"
+    continue
+  fi
+
+  build="$cache/$package-$version"
+  mkdir -p -- "$build"
+  install -m 644 "$repo/packages/$package/PKGBUILD" "$build/PKGBUILD"
+  if [[ "$package" == 1password-cli ]]; then
+    install -m 644 "$repo/packages/$package/1password-cli.install" "$build/1password-cli.install"
+    keyring=$(mktemp -d)
+    gpg --homedir "$keyring" --batch --import "$repo/packages/$package/codesign.asc"
+  fi
+  (
+    cd -- "$build"
+    if [[ "$package" == 1password-cli ]]; then export GNUPGHOME="$keyring"; fi
+    makepkg --cleanbuild --force --check --syncdeps --install --needed
+  )
+done
+printf 'Packages installed. No applications or clipboard listeners were restarted.\n'
