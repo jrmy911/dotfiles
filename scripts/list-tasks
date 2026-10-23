@@ -1,0 +1,12 @@
+#!/usr/bin/env fish
+
+# Use the window's current dimensions; allow scrolling through the whole report.
+command task next limit:0
+set -l result $status
+
+if isatty stdin
+    printf '\n'
+    read -P 'Press Enter to close. ' --local ignored
+end
+
+exit $result

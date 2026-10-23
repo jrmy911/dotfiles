@@ -35,6 +35,7 @@ for dir in sway swayfx waybar rofi mako ghostty yt-x; do
 done
 copy_file "$repo/.local/bin/swayfx" "$HOME/.local/bin/swayfx" 755
 copy_file "$repo/scripts/add-task" "$HOME/.local/bin/add-task" 755
+copy_file "$repo/scripts/list-tasks" "$HOME/.local/bin/list-tasks" 755
 copy_file "$repo/wallhaven-3q2zdd.jpg" "$HOME/assets/wallhaven-3q2zdd.jpg"
 if [[ -n "$backup" ]]; then printf 'Previous files backed up to %s\n' "$backup"; fi
 printf 'No running applications were reloaded. See README.md for installation and activation.\n'

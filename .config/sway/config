@@ -41,6 +41,7 @@ bindsym $mod+b exec $browser
 bindsym $mod+m exec $term --title=$mail -e $mail
 bindsym $mod+n exec $term -e $music
 bindsym $mod+shift+space exec env NO_FASTFETCH=1 ghostty --class=com.jrmy.taskQuickAdd --title=task -e ~/.local/bin/add-task
+bindsym $mod+Shift+t exec env NO_FASTFETCH=1 ghostty --class=com.jrmy.taskList --title=Tasks -e ~/.local/bin/list-tasks
 bindsym $mod+p exec $pw
 bindsym $mod+Shift+B exec $term --title=bluetui -e bluetui
 bindsym $mod+Shift+V exec $term --title=clipse -e clipse                               
@@ -56,6 +57,7 @@ for_window {
   [title="bluetui"] floating enable, move position center, resize set 40ppt 60ppt 
   [title="aerc"] floating enable, move position center, resize set 70ppt 70ppt 
   [app_id="^com\.jrmy\.taskQuickAdd$"] floating enable, move position center, resize set 60ppt 35ppt
+  [app_id="^com\.jrmy\.taskList$"] floating enable, move position center, resize set 80ppt 70ppt
   [app_id="com.onepassword.OnePassword"] floating enable, move position center, resize set 70ppt 60ppt 
 }
 

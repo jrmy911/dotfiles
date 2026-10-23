@@ -1,30 +1,43 @@
 #!/usr/bin/env fish
 
-# Keep completion local to this script's Fish process.
-function __add_task_complete_project
-    set -l token (commandline --current-token)
-    string match --quiet 'project:*' -- "$token"; or return
+# Bindings and completion state live only in this launcher's Fish process.
+function __add_task_complete
+    set -l token (commandline --current-token | string unescape)
+    set -l attribute
+    set -l choices
+    set -l prompt
 
-    if not set -q __add_task_last; or test "$token" != "$__add_task_last"
-        set -l prefix (string replace 'project:' '' -- "$token")
-        set -l pattern '^(?:'(string escape --style=regex -- "$prefix")')'
-        set -g __add_task_matches (command task _projects 2>/dev/null | string match --regex -- "$pattern.*")
-        set -g __add_task_index 0
+    if string match --quiet 'project:*' -- "$token"
+        set attribute 'project:'
+        set prompt 'Project > '
+        set choices (command task rc.list.all.projects=0 _projects 2>/dev/null)
+    else if string match --quiet '+*' -- "$token"
+        set attribute '+'
+        set prompt 'Tag > '
+        # _tags includes virtual tags; _unique returns only tags actually used.
+        set choices (command task _unique tags 2>/dev/null | string split ',' | string match --regex '.+' | sort -u)
+    else
+        return
     end
 
-    set -l total (count $__add_task_matches)
-    test "$total" -gt 0; or return
-    set -g __add_task_index (math "$__add_task_index % $total + 1")
-    set -g __add_task_last "project:$__add_task_matches[$__add_task_index]"
-    commandline --current-token --replace -- "$__add_task_last"
+    test (count $choices) -gt 0; or return
+    set -l prefix (string sub --start (math (string length -- "$attribute") + 1) -- "$token")
+    # Ignore global fzf options so personal preview commands/layouts don't leak in.
+    set -l choice (printf '%s\n' $choices | command env -u FZF_DEFAULT_OPTS -u FZF_DEFAULT_OPTS_FILE fzf \
+        --height=~10 --layout=reverse --border --no-multi \
+        --prompt="$prompt" --query="$prefix" --bind='tab:down,shift-tab:up')
+    if test $status -eq 0; and string length --quiet -- $choice
+        commandline --current-token --replace -- (string escape -- "$attribute$choice")
+    end
+    commandline --function repaint
 end
 
-bind tab __add_task_complete_project
-bind -M insert tab __add_task_complete_project
+bind tab __add_task_complete
+bind -M insert tab __add_task_complete
 
-printf '  Project     project:work        Tab cycles matching projects\n'
+printf '  Project     project:work        Tab opens project menu\n'
 printf '  Subproject  project:work.website\n'
-printf '  Tags        +email +errands     (labels use a + prefix)\n'
+printf '  Tags        +email +errands     Tab after + opens tag menu\n'
 printf '  Due date    due:tomorrow        due:2026-12-31 or due:friday\n'
 printf '  Due time    due:tomorrowT09:00\n'
 printf '  Schedule    scheduled:monday    Planned start date\n'
@@ -32,10 +45,19 @@ printf '  Hide until  wait:friday         Hide from pending until Friday\n'
 printf '  Priority    priority:H          H (high), M (medium), L (low)\n'
 printf '  Repeat      recur:weekly        Also needs a due: date\n\n'
 
-read --tokenize --array -P "Task: " task
+set -l draft ''
+while true
+    read --local --command "$draft" -P 'Task: ' draft; or exit 0
+    string match --quiet --regex '\S' -- "$draft"; or exit 0
+    # Tokenize without eval: quotes work, but shell code is never executed.
+    printf '%s\n' "$draft" | read --tokenize --array --local task_args
+    string length --quiet -- $task_args; or exit 0
 
-if string length --quiet -- $task
-    command task add $task
+    if command task add $task_args
+        printf '\nAdded: %s\n' "$draft"
+        sleep 2
+        exit 0
+    end
+
+    printf '\nCould not add task. Edit the entry and retry, or Ctrl+C to cancel.\n\n' >&2
 end
-
-exit
