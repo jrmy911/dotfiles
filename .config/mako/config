@@ -1,14 +1,18 @@
-# --- General Settings ---
-font=Jetbrains Mono Nerd Font 10
-text-color=#e0def4
-border-color=#524f67
-background-color=#26233a
-progress-color=over #31748f
+# --- Bauhaus (shared with Ghostty and Sway) ---
+font=GeistMono Nerd Font 10
+text-color=#C6CED8
+border-color=#222733
+background-color=#101318
+# Bauhaus coral, matching Waybar's focused workspace number.
+progress-color=over #E37B66
 width=420
 height=110
-padding=10
-border-size=2
+padding=14
+margin=10
+border-size=1
+border-radius=14
 icons=1
+icon-border-radius=8
 max-icon-size=48
 default-timeout=5000
 
@@ -22,4 +26,4 @@ anchor=top-center
 default-timeout=2000
 
 [urgency=high]
-border-color=#eb6f92
+border-color=#E37B66

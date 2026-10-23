@@ -1,6 +1,6 @@
 configuration {
     modi: "drun";
-    icon-theme: "Rose-Pine";
+    icon-theme: "Adwaita";
     show-icons: true;
     terminal: "ghostty";
     drun-display-format: "{icon} {name}";
@@ -8,105 +8,134 @@ configuration {
     disable-history: false;
     hide-scrollbar: true;
     display-drun: " 󰀻  Apps ";
-    sidebar-mode: true;
+    sidebar-mode: false;
 }
 
-  * {
-    /* --- Rosé Pine Moon/Dark Palette --- */
-    bg-col:       #191724;  /* base */
-    bg-alt:       #1f1d2e;  /* surface */
-    selected-col: #26233a;  /* overlay / selection bg */
-    
-    pine:         #31748f;  /* teal accent */
-    rose:         #ebbcba;  /* rose/gold accent */
-    love:         #eb6f92;  /* red for urgency */
-    text:         #e0def4;  /* foreground */
-    muted:        #6e6a86;  /* greyed out text */
+* {
+    /* Dark Bauhaus surfaces; restrained coral accents, no bright blocks. */
+    bg-col:       #101318;
+    bg-alt:       #161B22;
+    selected-col: #161B22;
+    outline:      #222733;
+    coral:        #E37B66;
+    text:         #C6CED8;
+    muted:        #6C7C82;
+
+    /* Override the default theme's more-specific normal/alternate/selected rows. */
+    background:                  @bg-col;
+    foreground:                  @text;
+    normal-background:           @bg-col;
+    normal-foreground:           @text;
+    alternate-normal-background: @bg-col;
+    alternate-normal-foreground: @text;
+    selected-normal-background:  @selected-col;
+    selected-normal-foreground:  @coral;
+    active-background:           @bg-col;
+    active-foreground:           @text;
+    alternate-active-background: @bg-col;
+    alternate-active-foreground: @text;
+    selected-active-background:  @selected-col;
+    selected-active-foreground:  @coral;
+    urgent-background:           @bg-col;
+    urgent-foreground:           @coral;
+    alternate-urgent-background: @bg-col;
+    alternate-urgent-foreground: @coral;
+    selected-urgent-background:  @selected-col;
+    selected-urgent-foreground:  @coral;
+    separatorcolor:              @outline;
+    bordercolor:                 @outline;
 
     width: 600;
-    font: "JetBrainsMono Nerd Font 12";
+    font: "GeistMono Nerd Font 12";
+    background-color: transparent;
+    text-color: @text;
 }
 
 element-text, element-icon, mode-switcher {
     background-color: inherit;
-    text-color:       inherit;
+    text-color: inherit;
 }
 
 window {
-    height: 360px;
-    border: 2px;
-    border-color: @pine;    /* Sharp Pine border */
+    height: 400px;
+    border: 1px;
+    border-color: @outline;
+    border-radius: 18px;
     background-color: @bg-col;
 }
 
 mainbox {
+    padding: 18px;
+    spacing: 12px;
     background-color: @bg-col;
 }
 
 inputbar {
-    children: [prompt,entry];
-    background-color: @bg-col;
-    padding: 2px;
+    children: [prompt, entry];
+    background-color: @bg-alt;
+    border-radius: 10px;
+    padding: 6px;
+    spacing: 10px;
 }
 
 prompt {
-    background-color: @pine; /* Pine header block */
-    padding: 6px;
-    text-color: @bg-col;     /* Dark text inside header */
-    font: "JetBrainsMono Nerd Font Bold 12";
-    margin: 20px 0px 0px 20px;
+    background-color: transparent;
+    padding: 7px;
+    text-color: @muted;
 }
 
 entry {
-    padding: 6px;
-    margin: 20px 0px 0px 10px;
+    padding: 7px;
     text-color: @text;
-    background-color: @bg-col;
     placeholder: "Search...";
     placeholder-color: @muted;
 }
 
 listview {
     border: 0px;
-    padding: 10px 0px 0px;
-    margin: 10px 0px 0px 20px;
+    spacing: 4px;
     columns: 1;
     lines: 5;
+    fixed-height: true;
     background-color: @bg-col;
+    scrollbar: false;
 }
 
 element {
     padding: 10px;
+    spacing: 10px;
+    border-radius: 10px;
     background-color: @bg-col;
     text-color: @text;
 }
 
-/* THE SELECTION: Matches your Tmux Focus */
 element selected {
-    background-color:  @selected-col; /* Subtle surface highlight */
-    text-color:        @rose;         /* Text turns Rose */
-    border:            0px 0px 0px 4px; /* Left accent line */
-    border-color:      @rose;
+    background-color: @selected-col;
+    text-color: @coral;
+}
+
+element-text {
+    highlight: bold;
 }
 
 element-text selected {
-    text-color: @rose;
+    text-color: @coral;
 }
 
 mode-switcher {
-    spacing: 0;
-    margin: 10px 20px 20px 20px;
+    spacing: 6px;
 }
 
 button {
-    padding: 10px;
+    padding: 8px;
+    border-radius: 8px;
     background-color: @bg-alt;
     text-color: @muted;
-    vertical-align: 0.5; 
+    vertical-align: 0.5;
     horizontal-align: 0.5;
 }
 
 button selected {
-  background-color: @selected-col;
-  text-color: @pine;
+    background-color: @selected-col;
+    text-color: @coral;
 }
