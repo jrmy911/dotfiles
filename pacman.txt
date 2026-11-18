@@ -19,6 +19,7 @@ fzf
 gdk-pixbuf2
 ghostty
 git
+github-cli
 gnupg
 go
 grep
@@ -77,6 +78,7 @@ tldr
 tmux
 tree-sitter
 tree-sitter-cli
+thunderbird
 unzip
 vim
 w3m

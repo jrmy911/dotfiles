@@ -8,8 +8,7 @@ set $right l
 set $term ghostty
 set $menu rofi -show drun
 set $browser firefox
-set $music subtui
-set $mail aerc
+set $mail thunderbird
 set $pw 1password
 
 output * bg ~/assets/wallhaven-3q2zdd.jpg fill
@@ -38,8 +37,9 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 bindsym $mod+e exec $term --title=yazi -e yazi
 bindsym $mod+b exec $browser
-bindsym $mod+m exec $term --title=$mail -e $mail
+bindsym $mod+m exec $mail
 bindsym $mod+n exec $term -e $music
+bindsym $mod+o exec killall -SIGUSR1 waybar
 bindsym $mod+shift+space exec env NO_FASTFETCH=1 ghostty --class=com.jrmy.taskQuickAdd --title=task -e ~/.local/bin/add-task
 bindsym $mod+Shift+t exec env NO_FASTFETCH=1 ghostty --class=com.jrmy.taskList --title=Tasks -e ~/.local/bin/list-tasks
 bindsym $mod+p exec $pw
@@ -63,7 +63,7 @@ for_window {
 
 gaps inner 6
 gaps outer 1
-smart_gaps off
+smart_gaps on
 
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
